@@ -11,9 +11,29 @@ def index():
 def inscription():
     return render_template('inscription.html')
 
+@app.route('/script_get_inscription')
+def script_get_inscription():
+    return send_file('./scripts/get_inscription.js')
+
 @app.route('/matchmaking')
 def matchmaking():
     return render_template('matchmaking.html')
 
+@app.route('/submit_form', methods=['POST'])
+def submit_form():
+    print(request.headers)
+    if request.is_json:  # Check if the request is indeed JSON
+        # Get the JSON data from the request
+        data = request.get_json()
+
+        print("Receiving data from the form:")
+        print(data)  # For debugging, print the received data
+
+        # Process the data as needed (e.g., save to a database, validate, etc.)
+
+        return jsonify({'message': 'Form submitted successfully!', 'data': data}), 200
+    else:
+        return jsonify({'error': 'Invalid Content-Type. Expected application/json.'}), 415
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

@@ -12,7 +12,7 @@
       <h1 class="text-center mb-4">Datathon FME Inscription</h1>
       <p class="text-center mb-5">Fill out the form below to register for the Datathon!</p>
       
-      <form id="inscriptionForm">
+      <form id="inscriptionForm" method="POST" action="/submit_form">
         <!-- Name -->
         <div class="form-group">
           <label for="name">Full Name</label>
@@ -700,5 +700,7 @@
         document.getElementById('preferred_team_size_text').textContent = this.value;
       });
     </script>
+    
+  <script src="/script_get_inscription"></script>
   </body>
 </html>
