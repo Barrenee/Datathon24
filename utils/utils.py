@@ -26,8 +26,10 @@ def languages_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
                 result[language].append(group)
 
     return result
+    #for langauge in LANGUAGES:
         
     
+
 def objectives_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
     '''Matches groups based on their objectives'''
 
@@ -41,3 +43,18 @@ def objectives_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
     return result
     #for langauge in LANGUAGES:
 #def match(group1, group2):
+
+
+
+def challenges_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
+    '''Matches groups based on their interest in challenges'''
+
+    result = {}
+    for challenge in CHALLENGES:
+        result[challenge] = []
+        for group in allgroups:
+            if challenge in group.interest_in_challenges:
+                result[challenge].append(group)
+
+    return result
+    #for langauge in LANGUAGES:

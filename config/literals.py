@@ -14,3 +14,6 @@ TRYHARD_VALUES = ["Extreme", "Medium", "Low", "None", "fiber"]
 EXPERIENCE = ["beginner", "intermediate", "advanced", "furry"]
 
 ROLES = ["analysis", "visualization", "development", "design", "don't know", "don't care"]
+
+ACCADEMIC_YEAR = ["1st year", "2nd year", "3rd year", "4th year", "Masters", "PhD"]
+

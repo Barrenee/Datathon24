@@ -16,8 +16,8 @@ g1 = Group(pabs1)
 g2 = Group(pabs2)
 
 all_groups = [g1, g2]
-table_language = languages_match(all_groups)
-table_objectives = objectives_match(all_groups)
+table_language = languages_match(all_groups) # {language: [group1, group2, ...]}
+table_objectives = objectives_match(all_groups) # {objective: [group1, group2, ...]}
 
 compatibles = {}
 for group in all_groups:
@@ -33,7 +33,7 @@ for group in all_groups:
     compatibles[group] = language_set.intersection(objective_set)
     compatibles[group].remove(group)
 
-# entee program -> assign to group / look for friends in group
+# enter program -> assign to group / look for friends in group
 # Texto juntado (obj intro technical future excitement fun fact) => LLM 
 # OBJECTIVE_ABSTRACT => A partir de (obj intro technical future excitement fun fact) => "Win" "Fun" "Learn" "Friends"
 # 
@@ -48,7 +48,10 @@ for group in all_groups:
 
 # MATCHES:
 
-# -> 
+# -> BASIC MATCHES:
+
+
+
 
 
 
