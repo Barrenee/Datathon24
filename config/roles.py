@@ -1,0 +1,1 @@
+ROLES = ["analysis", "visualization", "development", "design", "don't know", "don't care"]
