@@ -4,6 +4,8 @@ from api_handler import extract_properties
 from config.value_tables import YEAR_EXPERTISE_GAIN
 from config.literals import OBJECTIVES
 from config.api_key import API_KEY
+import pickle as pkl
+import os
 
 
 def abstract_tryhard(participant: ParticipantAbstract) -> ParticipantAbstract:
@@ -46,19 +48,26 @@ def abstract_expertise(participant: ParticipantAbstract) -> ParticipantAbstract:
     
     participant.expertise = expertise
     return participant
-    
 
-    
-
-    
-    
-    
-    
-    
     
 def abstract_objective(participant: ParticipantAbstract) -> ParticipantAbstract:
-    extract_properties(api_key= API_KEY,
+    if os.path.exists(f"./cache_participants/{participant}.pkl")
+        with open(f"./cache_participants/{participant}.pkl", "wb") as output_file:
+            participant_cache = pkl.load(output_file)
+            if participant_cache.objective_abs:
+                participant.objective_abs = participant_cache.objective_abs
+                return participant
+    else:
+        """objective_abs = extract_properties(api_key= API_KEY,
                        user_text= participant.objective, 
                        properties= "objective",
-                       cardinality = ['single']
-    )
+                       cardinality = ['single'],
+                       values_restriction=[OBJECTIVES]
+                        )"""
+        
+        objective_abs = ["Learn", "Win"]
+        
+        participant.add_objective_abs(objective_abs)
+        with open(f"./cache_participants/{participant}.pkl", "wb") as output_file:
+            pkl.dump(participant, output_file)
+        return participant

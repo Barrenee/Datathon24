@@ -1,5 +1,5 @@
 from Group import Group
-from config.literals import LANGUAGES, OBJECTIVES
+from config.literals import LANGUAGES, OBJECTIVES, CHALLENGES
 from typing import List, Dict
 
 

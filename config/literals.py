@@ -17,3 +17,4 @@ ROLES = ["analysis", "visualization", "development", "design", "don't know", "do
 
 ACCADEMIC_YEAR = ["1st year", "2nd year", "3rd year", "4th year", "Masters", "PhD"]
 
+CHALLENGES = {'AED Challenge', 'Mango Challenge', 'Restb.ai Challenge'}

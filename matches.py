@@ -1,5 +1,6 @@
 from config.literals import LANGUAGES
-from utils.utils import languages_match, objectives_match
+from utils.utils import languages_match, objectives_match, challenges_match
+from utils.abstraction import abstract_objective, abstract_expertise, abstract_tryhard
 from Group import Group
 from participant import Participant, load_participants
 from ParticipantAbstract import ParticipantAbstract
@@ -9,8 +10,11 @@ import json
 
 data = json.load(open("data/datathon_participants.json", "r"))
 
-pabs1 = ParticipantAbstract(Participant(**data[0]), {"python":"Beginner"}, set(["Learn"]))
-pabs2 = ParticipantAbstract(Participant(**data[1]), {"python":"Intermediate"}, set(["Fun_Friends", "Learn"]))
+
+pabs3 = ParticipantAbstract(Participant(**data[2]))
+
+pabs1 = ParticipantAbstract(Participant(**data[0]), {"python":"Beginner"}, set(["Learn"]), set(["Mango Challenge"]))
+pabs2 = ParticipantAbstract(Participant(**data[1]), {"python":"Intermediate"}, set(["Fun_Friends", "Learn"]), set(["Mango Challenge"]))
 
 g1 = Group(pabs1)
 g2 = Group(pabs2)
@@ -18,17 +22,23 @@ g2 = Group(pabs2)
 all_groups = [g1, g2]
 table_language = languages_match(all_groups) # {language: [group1, group2, ...]}
 table_objectives = objectives_match(all_groups) # {objective: [group1, group2, ...]}
+table_challenges = challenges_match(all_groups) # {challenge: [group1, group2, ...]}
 
 compatibles = {}
 for group in all_groups:
     compatibles[group] = set()
     language_set = set()
     objective_set = set()
+    challenge_set = set()
+
     for language in group.preferred_languages:
         language_set = set(table_language[language]).union(language_set)
     
     for objective in group.objective_abs:
         objective_set = set(table_objectives[objective]).union(objective_set)
+
+    for challenge in group.interest_in_challenges:
+        challenge_set = set(table_challenges[challenge]).union(challenge_set)
 
     compatibles[group] = language_set.intersection(objective_set)
     compatibles[group].remove(group)
