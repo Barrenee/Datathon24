@@ -1,0 +1,1 @@
+ROLES = ["developer", "data scientist", "design", "project manager"]
