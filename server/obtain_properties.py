@@ -57,10 +57,8 @@ def extract_properties(api_key, user_text, properties, cardinality, values_restr
 if __name__ == "__main__":
     
     # Read api key from api_key.txt
-    """with open("./api_key.txt", "r") as file:
-        api_key = file.read().strip()"""
-    
-    api_key="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"
+    with open("./server/api_key.txt", "r") as file:
+        api_key = file.read().strip()
     
     user_text = "I love hiking, painting, and playing guitar. I also speak three languages fluently and have a black belt in karate. My favourite color is purple"
     properties = ["hobbies", "abilities", "favourite_color"]
