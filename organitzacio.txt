@@ -1,0 +1,26 @@
+QUÉ HACERES:
+
+Sistema:
+ - Procesar input:  -> formulario
+                    -> texto libre
+
+- Match + explicación:  -> Abstracciones?
+                        -> Realizar matches?
+
+- Feedback del usuario
+
+
+----------------------------
+
+Miquel: GUI
+
+Pol:    decidir propiedades
+
+Pablo:  decidir propiedades
+
+Canta:  decidir propiedades
+
+
+
+
+
