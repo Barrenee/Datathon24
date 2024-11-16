@@ -1,5 +1,5 @@
 from config.literals import LANGUAGES
-from utils.utils import *
+from utils.utils import languages_match, objectives_match
 from Group import Group
 from participant import Participant, load_participants
 from ParticipantAbstract import ParticipantAbstract
