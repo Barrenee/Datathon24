@@ -1,9 +1,9 @@
-from participant import Participant
+from ParticipantAbstract import ParticipantAbstract
 from typing import List, Callable
 
 class Group:
-    def __init__(self, participant:Participant):
-        self.people_in_group: List[Participant] = [participant]
+    def __init__(self, participant: ParticipantAbstract):
+        self.people_in_group: List[ParticipantAbstract] = [participant]
         self.preferred_team_size: int = participant.preferred_team_size
         
         self.roles_fullfilled: List[str] = participant.preferred_role
@@ -11,8 +11,8 @@ class Group:
         self.interest_in_challenges: set[str] = participant.interest_in_challenges
         self.preferred_languages: set[str] = participant.preferred_languages
 
-        self.programming_level: dict[List[str]] = {key:[value] for key, value in participant.programming_level.items}
-        self.expert_ptograms: set[str] = participant.expert_programs
+        self.programming_level: dict[str, List[str]] = participant.programming_level
+        #self.expert_ptograms: set[str] = participant.expert_programs
 
     def merge_group(self, group: 'Group'):
         '''Merges both groups and actualizes the group's attributes'''

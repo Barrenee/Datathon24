@@ -6,10 +6,8 @@ from ParticipantAbstract import ParticipantAbstract
 import json
 
 
+
 data = json.load(open("data/datathon_participants.json", "r"))
-
-MOD: utils has languages_match and objective_match
-
 
 pabs1 = ParticipantAbstract(Participant(**data[0]), {"python":"Beginner"}, "Learn")
 pabs2 = ParticipantAbstract(Participant(**data[1]), {"python":"Intermediate"}, "Friends")

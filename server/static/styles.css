@@ -1,8 +1,10 @@
 /* Define common styles for all pages */
 body {
+
   font-family: 'Montserrat', sans-serif;
   background-color: #ffffff; /* White background color */
   color: #64748b; /* Small letters text color */
+
   line-height: 1.6;
   margin: 20px;
   padding: 0;

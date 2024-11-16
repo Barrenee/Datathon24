@@ -1,3 +1,5 @@
 .~lock.Properties*
 data_analyzerPB.py
-__pycache__/*
+__pycache__/
+./__pycache__/
+*.py[cod]
