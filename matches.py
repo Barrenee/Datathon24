@@ -6,6 +6,7 @@ from ParticipantAbstract import ParticipantAbstract
 import json
 
 
+
 data = json.load(open("data/datathon_participants.json", "r"))
 
 pabs1 = ParticipantAbstract(Participant(**data[0]), {"python":"Beginner"}, "Learn")
