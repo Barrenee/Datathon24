@@ -1,1 +1,0 @@
-EXPERIENCE = ["beginner", "intermediate", "advanced"]
