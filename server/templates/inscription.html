@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Datathon FME - Inscription</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./static/styles.css"> <!-- Include shared.css -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Datathon FME Inscription</h1>
+      <p class="text-center mb-5">Fill out the form below to register for the Datathon!</p>
+      
+      <form id="inscriptionForm">
+        <!-- Name -->
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+        </div>
+        
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+        </div>
+        
+        <!-- Age -->
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" class="form-control" id="age" placeholder="Enter your age" min="0" required>
+        </div>
+        
+        <!-- Year of Study -->
+        <div class="form-group">
+          <label for="year_of_study">Year of Study</label>
+          <select class="form-control" id="year_of_study" required>
+            <option value="1st year">1st year</option>
+            <option value="2nd year">2nd year</option>
+            <option value="3rd year">3rd year</option>
+            <option value="4th year">4th year</option>
+            <option value="master 1">Master 1st year</option>
+            <option value ="master 2">Master 2nd year</option>
+            <option value ="phd">PhD</option>
+            <option value ="working">Working</option>
+          </select>
+        </div>
+        
+        <!-- Shirt Size -->
+        <div class="form-group">
+          <label for="shirt_size">Shirt Size</label>
+          <select class="form-control" id="shirt_size" required>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+        
+        <!-- University -->
+        <div class="form-group">
+          <label for="university">University</label>
+          <input type="text" class="form-control" id="university" placeholder="Enter your university name" required>
+        </div>
+        
+        <!-- Dietary Restrictions -->
+        <div class="form-group">
+          <label for="dietary_restrictions">Dietary Restrictions</label>
+          <select class="form-control" id="dietary_restrictions" required>
+            <option value="None">None</option>
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Gluten-Free">Gluten-Free</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        
+        <!-- Interests -->
+        <div class="form-group">
+          <label for="interests">Interests</label>
+          <select multiple class="form-control" id="interests">
+            <option value="Fintech">Fintech</option>
+            <option value="Blockchain">Blockchain</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Productivity">Productivity</option>
+            <option value="AI">AI</option>
+            <option value="Data Science">Data Science</option>
+          </select>
+        </div>
+        
+        <!-- Preferred Role -->
+        <div class="form-group">
+          <label for="preferred_role">Preferred Role</label>
+          <select class="form-control" id="preferred_role" required>
+            <option value="Developer">Developer</option>
+            <option value="Data Scientist">Data Scientist</option>
+            <option value="Design">Design</option>
+            <option value="Project Manager">Project Manager</option>
+          </select>
+        </div>
+        
+        <!-- Experience Level -->
+        <div class="form-group">
+          <label for="experience_level">Experience Level</label>
+          <select class="form-control" id="experience_level" required>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
+        
+        <!-- Hackathons Done -->
+        <div class="form-group">
+          <label for="hackathons_done">Hackathons Attended</label>
+          <input type="number" class="form-control" id="hackathons_done" placeholder="Enter the number of hackathons attended" min="0" required>
+        </div>
+        
+        <!-- Preferred Team Size -->
+        <div class="form-group">
+          <label for="preferred_team_size">Preferred Team Size</label>
+          <input type="number" class="form-control" id="preferred_team_size" placeholder="Enter your preferred team size" min="1" max="10" required>
+        </div>
+        
+        <!-- Availability -->
+        <div class="form-group">
+          <label>Availability</label>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="availability_saturday_morning">
+            <label class="form-check-label" for="availability_saturday_morning">Saturday Morning</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="availability_saturday_afternoon">
+            <label class="form-check-label" for="availability_saturday_afternoon">Saturday Afternoon</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="availability_saturday_night">
+            <label class="form-check-label" for="availability_saturday_night">Saturday Night</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="availability_sunday_morning">
+            <label class="form-check-label" for="availability_sunday_morning">Sunday Morning</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="availability_sunday_afternoon">
+            <label class="form-check-label" for="availability_sunday_afternoon">Sunday Afternoon</label>
+          </div>
+        </div>
+        
+        <!-- Open-Ended Questions -->
+        <div class="form-group">
+          <label for="objective">Objective</label>
+          <textarea class="form-control" id="objective" rows="3" placeholder="What is your goal for this datathon?"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="introduction">Introduction</label>
+          <textarea class="form-control" id="introduction" rows="3" placeholder="Tell us about yourself"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="technical_project">Technical Project</label>
+          <textarea class="form-control" id="technical_project" rows="3" placeholder="Describe a technical project you've worked on"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="future_excitement">Future Excitement</label>
+          <textarea class="form-control" id="future_excitement" rows="3" placeholder="What excites you about the future?"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="fun_fact">Fun Fact</label>
+          <textarea class="form-control" id="fun_fact" rows="2" placeholder="Share a fun fact about yourself"></textarea>
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </div>
+        <!-- Go back button -->
+        <div class="text-center">
+            <a href="/" class="btn btn-secondary btn-lg">Go Back</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
