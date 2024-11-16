@@ -26,7 +26,6 @@ def languages_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
                 result[language].append(group)
 
     return result
-    #for langauge in LANGUAGES:
         
     
 def objectives_match(allgroups: List[Group]) -> Dict[str, List[Group]]:

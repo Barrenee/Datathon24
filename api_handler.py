@@ -140,7 +140,7 @@ def merge_property(api_key, first_description, second_description, additional_in
 def decision_explainer(api_key, matches_with_group, does_not_match_group):
     """
     Explains the decision made by a model using GPT.
-
+"""
     :param api_key: OpenAI API key to use the GPT model.
     :param matches_with_group: Caracteristics in which our rules have yielded a match for this group with another one. 
     :param does_not_match_group: Caracteristics in which our rules have yielded a match for this group with another one.
@@ -166,7 +166,7 @@ def decision_explainer(api_key, matches_with_group, does_not_match_group):
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt},
         ], # limit tokens to 2048
-        max_tokens=2048
+        max_tokens"""=2048
     )
 
     # Parse the API response

@@ -10,7 +10,7 @@ import json
 data = json.load(open("data/datathon_participants.json", "r"))
 
 pabs1 = ParticipantAbstract(Participant(**data[0]), {"python":"Beginner"}, set(["Learn"]))
-pabs2 = ParticipantAbstract(Participant(**data[1]), {"python":"Intermediate"}, set(["Friends", "Learn"]))
+pabs2 = ParticipantAbstract(Participant(**data[1]), {"python":"Intermediate"}, set(["Fun_Friends", "Learn"]))
 
 g1 = Group(pabs1)
 g2 = Group(pabs2)
