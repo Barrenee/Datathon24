@@ -7,7 +7,7 @@ class Group:
         self.preferred_team_size: int = participant.preferred_team_size
         
         self.roles_fullfilled: List[str] = participant.preferred_role
-        self.objective: str = participant.objective # Abstracted objective
+        self.objective: set[str] = participant.objective # Abstracted objective
         self.interest_in_challenges: set[str] = participant.interest_in_challenges
         self.preferred_languages: set[str] = participant.preferred_languages
 
@@ -22,7 +22,7 @@ def find_possible_new_merge(group, all_groups:List[Group]) -> List[Group]:
     for group2 in all_groups:
         if group2.preferred_languages.intersection(group.preferred_languages): # Check if they have a common language
             if group2.interest_in_challenges.intersection(group.interest_in_challenges): # Check if they have a common interest
-                if group2.objective == group.objective: # Check if they have the same objective
+                if group2.objective.intersect(group.objective): # Check if they have the same objective
                     if not(group2.roles_fullfilled.intersection(group.roles_fullfilled)): # Check if they have complementary roles
                         closest_groups.append(group2)
     return closest_groups
