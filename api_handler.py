@@ -92,7 +92,7 @@ def extract_similitude(api_key, first_text, second_text, objective, levels = ["l
         return eval(result)
     except Exception as e:
         print("Error parsing the response:", e)
-        return {level: "" for level in levels}
+        return "low"
     
 def merge_property(api_key, first_description, second_description, additional_info=None):
     """
@@ -135,10 +135,88 @@ def merge_property(api_key, first_description, second_description, additional_in
         return eval(result)
     except Exception as e:
         print("Error parsing the response:", e)
-        return ""
+        return first_description + second_description
+    
+def decision_explainer(api_key, matches_with_group, does_not_match_group):
+    """
+    Explains the decision made by a model using GPT.
 
+    :param api_key: OpenAI API key to use the GPT model.
+    :param matches_with_group: Caracteristics in which our rules have yielded a match for this group with another one. 
+    :param does_not_match_group: Caracteristics in which our rules have yielded a match for this group with another one.
+    :return: An explanation of the decision made by the model.
+    """
+    # Construct the prompt
+    prompt = (
+        "You are a text analysis assistant. Your job is to explain to a user which is searching for a group to work with why the model has made the decision to match them with a specific group. "
+        "The model has made a decision based on expert-knowledge-derived rules. "
+        "You need to provide an explanation for the decision made by the model given the aspects in which the groups match or do not match. "
+        "The aspects that match between the user and group are provided below.\n\n\n "
+        f"Matches with the decision: {matches_with_group}\n"
+        f"Does not match with the decision: {does_not_match_group}\n"
+    )
 
+    prompt += "\nReturn the result as a Python string. Give some explanation but not unnecessary information. Keep it short."
 
+    # Call the OpenAI API
+    openai.api_key = api_key
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ], # limit tokens to 2048
+        max_tokens=2048
+    )
+
+    # Parse the API response
+    try:
+        result = response['choices'][0]['message']['content']
+        return eval(result)
+    except Exception as e:
+        print("Error parsing the response:", e)
+        return "We are sorry, but we could not provide an explanation for the decision made by the model."
+    
+def modify_weights(api_key, weights, feedback): 
+    """
+    Given a list of weights for a ponderated sum of factors, which are used to determine if we should care more or less about them when we match a user with a group, this function returns the new ponderated sum of factors given the feedback about what the user liked or disliked about the group and our decision process. Keep the changes small, between -0.1 and 0.1.
+
+    :param api_key: OpenAI API key to use the GPT model.
+    :param weights: A dictionary with the weights for each factor.
+    :param feedback: A dictionary with the feedback about the group.
+    :return: A dictionary with the new weights for each factor.
+    """
+    # Construct the prompt
+    prompt = (
+        "You are a text analysis assistant. Your job is to modify the weights used in the decision process of matching a user with a group. "
+        "The weights are used to determine the importance of each factor when matching a user with a group. "
+        "You need to provide new weights based on the feedback received from the user about the group. "
+        "Keep the changes small, between -0.1 and 0.1. "
+        "The weights and feedback are provided below.\n\n\n "
+        f"Weights: {weights}\n"
+        f"Feedback: {feedback}\n"
+    )
+
+    prompt += "\nReturn the result as a Python dictionary. Do not include any explanation or extra text."
+
+    # Call the OpenAI API
+    openai.api_key = api_key
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ]
+    )
+
+    # Parse the API response
+    try:
+        result = response['choices'][0]['message']['content']
+        return eval(result)
+    except Exception as e:
+        print("Error parsing the response:", e)
+        return weights
+    
 
 # Example usage
 if __name__ == "__main__":
@@ -166,4 +244,14 @@ if __name__ == "__main__":
     second_description = "I enjoy videogames, literature, and playing the piano. My dream is to be an engineer someday. I am fluent in one language. My favourite color is blue"
     additional_info = "The final description should include only the hobbies and future jobs."
     #result = merge_property(api_key, first_description, second_description, additional_info)
+    #print(result)
+
+    matches_with_group = ["knowledge level", "abilities complementarity", "similar interests"]
+    does_not_match_group = ["different job goals", "studying at different years"]
+    #result = decision_explainer(api_key, matches_with_group, does_not_match_group)
+    #print(result)
+
+    weights = {"knowledge level": 0.5, "abilities complementarity": 0.3, "similar interests": 0.2, "different job goals": 0.3, "studying at different years": 0.4}
+    feedback = {"i didn't really care about the knowledge level, i'm looking to work with different people, but i would have liked to have the same job goals"}
+    #result = modify_weights(api_key, weights, feedback)
     #print(result)
