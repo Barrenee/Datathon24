@@ -53,6 +53,50 @@ def extract_properties(api_key, user_text, properties, cardinality, values_restr
         print("Error parsing the response:", e)
         return {prop: [] if card == 'multiple' else "" for prop, card in zip(properties, cardinality)}
 
+def extract_similitude(api_key, first_text, second_text, objective, levels = ["low", "medium", "high"]):
+    """
+    Extracts the similitude between two texts using GPT.
+
+    :param api_key: OpenAI API key to use the GPT model.
+    :param first_text: The first text to compare.
+    :param second_text: The second text to compare.
+    :param objective: What you want to know about the similitude between the two texts.
+    :param levels: A list with the values of similitude you can return.
+    :return: One of the similitude levels that represents the similitude between the two texts.
+    """
+    # Construct the prompt
+    prompt = (
+        f"You are a text analysis assistant. Your job is to compare two texts and extract their similarity levels regarding the following characteristic: {objective}. "
+        "Return a Python string containing how similars the texts are. "
+        f"The similarity levels available are {levels}."
+        "The texts are provided below.\n\n\n "
+        f"First Text: \"{first_text}\"\n"
+        f"Second Text: \"{second_text}\"\n"
+    )
+
+    prompt += "\nReturn the result as a Python string. Do not include any explanation or extra text."
+
+    # Call the OpenAI API
+    openai.api_key = api_key
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ]
+    )
+
+    # Parse the API response
+    try:
+        result = response['choices'][0]['message']['content']
+        return eval(result)
+    except Exception as e:
+        print("Error parsing the response:", e)
+        return {level: "" for level in levels}
+    
+
+
+
 # Example usage
 if __name__ == "__main__":
     
@@ -65,5 +109,12 @@ if __name__ == "__main__":
     cardinality = ["multiple", "multiple", "single"]
     restrictions = [None, None, ["blue", "red", "green"]]
 
-    result = extract_properties(api_key, user_text, properties, cardinality, restrictions)
+    #result = extract_properties(api_key, user_text, properties, cardinality, restrictions)
+    #print(result)
+
+    first_text = "I love hiking, painting, and playing guitar. I also speak three languages fluently and have a black belt in karate. My favourite color is purple. I want to be an engineer. "
+    second_text = "I enjoy videogames, literature, and playing the piano. My dream is to be an engineer someday. I am fluent in one language. My favourite color is blue"
+    levels = ["low", "medium", "high"]
+    objective = "future job"
+    result = extract_similitude(api_key, first_text, second_text, objective, levels)
     print(result)
