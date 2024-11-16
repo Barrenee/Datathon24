@@ -13,3 +13,12 @@ def find_possible_new_merge(group, all_groups:List[Group]) -> List[Group]:
                     if not(group2.roles_fullfilled.intersection(group.roles_fullfilled)): # Check if they have complementary roles
                         closest_groups.append(group2)
     return closest_groups
+
+
+def languages_match(allgroups: List[Group]) -> List[Group]:
+    languages = {}
+    for langauge in ALLLANGUAGES:
+        
+    
+
+def match(group1, group2):
