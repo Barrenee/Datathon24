@@ -1,4 +1,4 @@
-import openai
+import openai # Version 0.28
 
 def extract_properties(api_key, user_text, properties, cardinality, values_restriction):
     """
