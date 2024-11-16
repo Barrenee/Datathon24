@@ -1,4 +1,5 @@
 from flask import Flask, render_template, session, jsonify, request, send_file
+from participant import Participant
 
 app = Flask(__name__)
 
@@ -32,9 +33,9 @@ def submit_form():
         data['programming_skills'] = {skill: value for skill, value in data['programming_skills'].items() if value != 0}
         
         print("Processed data:")
-        #person = Participant(**data)
+        person = Participant(**data)
 
-        #print(person)  # For debugging, print the processed data
+        print(person)  # For debugging, print the processed data
 
 
         return jsonify({'message': 'Form submitted successfully!', 'data': data}), 200
