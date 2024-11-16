@@ -7,7 +7,7 @@ class Group:
         self.preferred_team_size: int = participant.preferred_team_size
         
         self.roles_fullfilled: List[str] = participant.preferred_role
-        self.objective: set[str] = participant.objective # Abstracted objective
+        self.objective_abs: set[str] = participant.objective_abs # Abstracted objective
         self.interest_in_challenges: set[str] = participant.interest_in_challenges
         self.preferred_languages: set[str] = participant.preferred_languages
 
@@ -21,7 +21,7 @@ class Group:
         self.preferred_languages = self.preferred_languages.intersection(group.preferred_languages) # Intersect languages
         
         self.programming_level = self.update_programming_level(group) # Update programming level
-        self.objective = self.update_objectives(group) # Update objectives
+        self.objective_abs = self.update_objectives(group) # Update objectives
         self.interest_in_challenges = self.update_interest_in_challenges(group)
         self.expert_ptograms = self.update_expert_ptograms(group)
     
@@ -38,7 +38,7 @@ class Group:
         '''Updates the objectives of the group'''
         # Intersection for now
         # Can be changed in the future
-        self.objective = self.objective.intersection(group.objective)
+        self.objective_abs = self.objective_abs.intersection(group.objective_abs)
     
     def update_interest_in_challenges(self, group: 'Group'):
         '''Updates the interest in challenges of the group'''
