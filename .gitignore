@@ -1,2 +1,3 @@
 .~lock.Properties*
 data_analyzerPB.py
+__pycache__/*
