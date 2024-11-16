@@ -1,6 +1,6 @@
 from Group import Group
-
-from typing import List
+from config.literals import LANGUAGES, OBJECTIVES
+from typing import List, Dict
 
 
 def find_possible_new_merge(group, all_groups:List[Group]) -> List[Group]:
@@ -15,10 +15,30 @@ def find_possible_new_merge(group, all_groups:List[Group]) -> List[Group]:
     return closest_groups
 
 
-def languages_match(allgroups: List[Group]) -> List[Group]:
-    languages = {}
-    for langauge in ALLLANGUAGES:
+def languages_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
+    '''Matches groups based on their preferred languages'''
+
+    result = {}
+    for language in LANGUAGES:
+        result[language] = []
+        for group in allgroups:
+            if language in group.preferred_languages:
+                result[language].append(group)
+
+    return result
+    #for langauge in LANGUAGES:
         
     
+def objectives_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
+    '''Matches groups based on their objectives'''
 
-def match(group1, group2):
+    result = {}
+    for objective in OBJECTIVES:
+        result[objective] = []
+        for group in allgroups:
+            if objective in group.objective_abs:
+                result[objective].append(group)
+
+    return result
+    #for langauge in LANGUAGES:
+#def match(group1, group2):
