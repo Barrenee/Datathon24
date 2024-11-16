@@ -1,5 +1,9 @@
 QUÉ HACERES:
 
+- escoger propiedades a extraer del texto
+- buscar modelo de lenguaje
+
+
 Sistema:
  - Procesar input:  -> formulario
                     -> texto libre
