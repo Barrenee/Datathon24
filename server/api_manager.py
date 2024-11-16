@@ -94,6 +94,49 @@ def extract_similitude(api_key, first_text, second_text, objective, levels = ["l
         print("Error parsing the response:", e)
         return {level: "" for level in levels}
     
+def merge_property(api_key, first_description, second_description, additional_info=None):
+    """
+    Merges two descriptions into a single one using GPT.
+
+    :param api_key: OpenAI API key to use the GPT model.
+    :param first_description: The first description to merge.
+    :param second_description: The second description to merge.
+    :param additional_info: Additional information as to how the merge should be handled. 
+    :return: The merged description.
+    """
+    # Construct the prompt
+    prompt = (
+        "You are a text analysis assistant. Your job is to merge two descriptions into a single one. "
+        "You can also include additional information if needed. "
+        "Return a Python string containing the merged description. "
+        "The descriptions are provided below.\n\n\n "
+        f"First Description: \"{first_description}\"\n"
+        f"Second Description: \"{second_description}\"\n"
+    )
+
+    if additional_info:
+        prompt += f"Additional information you should take into account: \"{additional_info}\"\n"
+
+    prompt += "\nReturn the result as a Python string. Do not include any explanation or extra text."
+
+    # Call the OpenAI API
+    openai.api_key = api_key
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ]
+    )
+
+    # Parse the API response
+    try:
+        result = response['choices'][0]['message']['content']
+        return eval(result)
+    except Exception as e:
+        print("Error parsing the response:", e)
+        return ""
+
 
 
 
@@ -116,5 +159,11 @@ if __name__ == "__main__":
     second_text = "I enjoy videogames, literature, and playing the piano. My dream is to be an engineer someday. I am fluent in one language. My favourite color is blue"
     levels = ["low", "medium", "high"]
     objective = "future job"
-    result = extract_similitude(api_key, first_text, second_text, objective, levels)
-    print(result)
+    #result = extract_similitude(api_key, first_text, second_text, objective, levels)
+    #print(result)
+
+    first_description = "I love hiking, painting, and playing guitar. I also speak three languages fluently and have a black belt in karate. My favourite color is purple. I want to be an engineer. "
+    second_description = "I enjoy videogames, literature, and playing the piano. My dream is to be an engineer someday. I am fluent in one language. My favourite color is blue"
+    additional_info = "The final description should include only the hobbies and future jobs."
+    #result = merge_property(api_key, first_description, second_description, additional_info)
+    #print(result)
