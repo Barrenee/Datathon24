@@ -41,6 +41,7 @@ document.getElementById('inscriptionForm').addEventListener('submit', function(e
     .then(response => response.json())
     .then(result => {
         console.log('Form submitted successfully:', result);
+        window.location.href = '/';
     })
     .catch(error => {
         console.error('Error submitting form:', error);
