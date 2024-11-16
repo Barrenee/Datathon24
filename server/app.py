@@ -42,5 +42,4 @@ def submit_form():
     else:
         return jsonify({'error': 'Invalid Content-Type. Expected application/json.'}), 415
 
-if __name__ == '__main__':
-    app.run(debug=True)
+app.run(debug=True)
