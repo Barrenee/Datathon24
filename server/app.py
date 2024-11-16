@@ -21,13 +21,18 @@ def matchmaking():
 
 @app.route('/submit_form', methods=['POST'])
 def submit_form():
-    print(request.headers)
     if request.is_json:  # Check if the request is indeed JSON
         # Get the JSON data from the request
         data = request.get_json()
 
         print("Receiving data from the form:")
         print(data)  # For debugging, print the received data
+        
+        # From programming skills, remove all the skills that have a 0 value
+        data['programming_skills'] = {skill: value for skill, value in data['programming_skills'].items() if value != 0}
+        
+        print("Processed data:")
+        print(data)
 
         # Process the data as needed (e.g., save to a database, validate, etc.)
 
