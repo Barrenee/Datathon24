@@ -22,6 +22,10 @@ def track_user_activity():
 def generate_user_id():
     return uuid.uuid4()
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 @app.route('/leave_matchmaking', methods=['POST'])
 def leave_matchmaking():
     """Remove user from matchmaking and reset their status."""
@@ -108,6 +112,8 @@ def matchmaking_monitor():
     while True:
         try:
             trigger_matchmaking()  # Trigger matchmaking every 5 seconds
+            # Stop the thread 
+            break
         except Exception as e:
             print(f"Error during matchmaking: {e}")
         time.sleep(5)  # Check every 5 seconds
