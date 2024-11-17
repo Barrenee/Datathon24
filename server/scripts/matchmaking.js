@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // Redirect to matchmaking_done if users connected >= 1
-                if (data.connected_users >= 1) {
+                if (data.connected_users >= 2) {
                     window.location.href = '/matchmaking_done';
                 }
             })

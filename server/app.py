@@ -20,6 +20,9 @@ lock = threading.Lock()  # Lock for thread-safe access
 # Initialize SocketIO
 socketio = SocketIO(app)
 acceptances = 0
+people_first_round = []
+selected_first_round = []
+people_second_round = []
 
 # Middleware to track user activity
 @app.before_request
@@ -55,7 +58,7 @@ def matchmaking_html():
     with lock:
         connected_users.add(g.user_id)
         if g.user_id not in user_status:
-            user_status[g.user_id] = 'interaction'  # Default status when joining
+            user_status[g.user_id] = 'waiting'  # Default status when joining
     return render_template('matchmaking.html')
 
 @app.route('/matchmaking_done')
@@ -63,7 +66,7 @@ def matchmaking_done():
     """Serve the page corresponding to the user's status."""
     with lock:
         # Default to 'waiting' if user is not yet processed
-        status = user_status.get(g.user_id, 'interaction')
+        status = user_status.get(g.user_id, 'waiting')
     return render_template(f"{status}.html")
 
 
@@ -102,11 +105,16 @@ def handle_accept_match():
     global acceptances
     acceptances += 1
     print(f"User accepted the match. Acceptances: {acceptances}")
-    if acceptances == 1:
+    if acceptances == 2:
         emit('redirect_to_congratulations', {'message': 'Both users accepted the match'}, broadcast=True)
 
 
-
+@app.route('/clear_acceptances', methods=['POST'])
+def clear_acceptances():
+    global acceptances, connected_users
+    acceptances = 0
+    connected_users = set()
+    return '', 200  # Simply return 200 with an empty response
 
 # ROUTES
 @app.route('/inscription')
@@ -159,12 +167,12 @@ def submit_form():
     else:
         return jsonify({'error': 'Invalid Content-Type. Expected application/json.'}), 415
 
-def trigger_matchmaking():
-    """Perform matchmaking when conditions are met."""
+"""def trigger_matchmaking():
+    Perform matchmaking when conditions are met.
     print("Matchmaking triggered!")
     with lock:
         for user_id in connected_users:
-            user_status[user_id] = 'interaction'
+            user_status[user_id] = 'waiting'"""
 
 
 @app.route('/submit_feedback', methods=['POST'])
@@ -242,8 +250,8 @@ def generate_barplot(feature_importance, new_feature_importance):
     
 
 # Background thread to monitor matchmaking
-def matchmaking_monitor():
-    """This function will run continuously in the background, checking for matchmaking conditions."""
+"""def matchmaking_monitor():
+    This function will run continuously in the background, checking for matchmaking conditions.
     while True:
         try:
             trigger_matchmaking()  # Trigger matchmaking every 5 seconds
@@ -251,11 +259,11 @@ def matchmaking_monitor():
             break
         except Exception as e:
             print(f"Error during matchmaking: {e}")
-        time.sleep(5)  # Check every 5 seconds
+        time.sleep(5)  # Check every 5 seconds"""
 
 # Start matchmaking monitor thread in the background
-matchmaking_thread = threading.Thread(target=matchmaking_monitor, daemon=True)
-matchmaking_thread.start()
+#matchmaking_thread = threading.Thread(target=matchmaking_monitor, daemon=True)
+#matchmaking_thread.start()
 
 # Start the Flask app
 socketio.run(app, host='0.0.0.0', port=5000, debug=True)
