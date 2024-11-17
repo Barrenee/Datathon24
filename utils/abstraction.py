@@ -81,17 +81,16 @@ def abstract_objective(participant: ParticipantAbstract) -> ParticipantAbstract:
                 participant.objective_abs = participant_cache.objective_abs
                 return participant
     else:
-        objective_abs = extract_properties(api_key= API_KEY,
+        objective_abs_result = extract_properties(api_key= API_KEY,
                        user_text= participant.objective, 
                        properties= ["objective"],
                        cardinality = ['single'],
                        values_restriction=[OBJECTIVES]
                         )
-        objective_abs = objective_abs["objective"]
-        #objective_abs = ["Learn", "Win"]
-        
-        participant.add_objective_abs(objective_abs)
+        if not isinstance(objective_abs_result, list):
+            participant.add_objective_abs(list(objective_abs_result))
+        participant.add_objective_abs(objective_abs_result)
 
-        with open(f"./cache_participants/{participant.id}.pkl", "wb") as output_file:
-            pkl.dump(participant, output_file)
+        """with open(f"./cache_participants/{participant.id}.pkl", "wb") as output_file:
+            pkl.dump(participant, output_file)"""
         return participant

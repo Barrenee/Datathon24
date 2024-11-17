@@ -27,18 +27,8 @@ print(matrix, tuplas)
 
 matrix[matrix == -np.inf] = 0
 
-# Crear una matriz de calor simétrica de ejemplo (por ejemplo, una matriz 10x10 de valores aleatorios)
 size = len(matrix)
 
-# Lista de tuplas con nombres de grupos válidos, corregida
-# tuplas = [
-#     ("Group2", "Group3"),
-#     ("Group1", "Group4"),
-#     ("Group6", "Group7"),  # Corregido: separar los nombres en elementos distintos
-#     ("Group5", "Group8", "Group9", "Group10"),
-# ]
-
-# # Crear etiquetas personalizadas para los grupos
 group_labels = [f"Group{i+1}" for i in range(size)]  # Nombres de grupos como Group1, Group2, ...
 
 def create_heatmap_animation(heatmap_data: np.ndarray, group_labels: list, tuplas: list):
