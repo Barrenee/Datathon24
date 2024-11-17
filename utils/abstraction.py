@@ -1,6 +1,11 @@
 from participant import Participant
 from ParticipantAbstract import ParticipantAbstract
-from api_handler import ""
+from api_handler import extract_properties
+from config.value_tables import YEAR_EXPERTISE_GAIN
+from config.literals import OBJECTIVES
+from config.api_key import API_KEY
+import pickle as pkl
+import os
 
 
 def abstract_tryhard(participant: ParticipantAbstract) -> ParticipantAbstract:
@@ -38,31 +43,31 @@ def abstract_expertise(participant: ParticipantAbstract) -> ParticipantAbstract:
     # 4o => +3
     # M => +4
     # D => +6
-
-    if year == "1st year":
-        expertise = exp_level + 0
-    elif year == "2nd year":
-        expertise = exp_level + 1
-    elif year == "3rd year":
-        expertise = exp_level + 2
-    elif year == "4th year":
-        expertise = exp_level + 3
-    elif year == "Masters":
-        expertise = exp_level + 4
-    elif year == "PhD":
-        expertise = exp_level + 6
+    expertise = exp_level + YEAR_EXPERTISE_GAIN[year]
+  
     
     participant.expertise = expertise
     return participant
-    
 
-    
-
-    
-    
-    
-    
-    
     
 def abstract_objective(participant: ParticipantAbstract) -> ParticipantAbstract:
-    api_handler
+    if os.path.exists(f"./cache_participants/{participant}.pkl")
+        with open(f"./cache_participants/{participant}.pkl", "wb") as output_file:
+            participant_cache = pkl.load(output_file)
+            if participant_cache.objective_abs:
+                participant.objective_abs = participant_cache.objective_abs
+                return participant
+    else:
+        """objective_abs = extract_properties(api_key= API_KEY,
+                       user_text= participant.objective, 
+                       properties= "objective",
+                       cardinality = ['single'],
+                       values_restriction=[OBJECTIVES]
+                        )"""
+        
+        objective_abs = ["Learn", "Win"]
+        
+        participant.add_objective_abs(objective_abs)
+        with open(f"./cache_participants/{participant}.pkl", "wb") as output_file:
+            pkl.dump(participant, output_file)
+        return participant

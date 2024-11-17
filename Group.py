@@ -11,7 +11,7 @@ class Group:
         self.interest_in_challenges: set[str] = participant.interest_in_challenges
         self.preferred_languages: set[str] = participant.preferred_languages
 
-        self.programming_level: dict[str, List[str]] = participant.programming_level
+        #self.programming_level: dict[str, List[str]] = participant.programming_level
         #self.expert_ptograms: set[str] = participant.expert_programs
 
     def merge_group(self, group: 'Group'):
