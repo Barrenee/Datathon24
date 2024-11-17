@@ -26,14 +26,19 @@
         }
 
         .feedback-input {
-            width: 100%;
-            height: 150px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
+    width: 100%;
+    height: auto; /* Adjust height based on content */
+    min-height: 50px; /* Minimum height */
+    max-height: 150px; /* Prevent excessive growth */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    overflow: hidden; /* Prevent text from spilling out */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Ensure long words break correctly */
+}
+
 
         .feedback-button {
             display: block;
@@ -69,7 +74,9 @@
     <div class="heading">
         <h1>Why did we redirect you here?</h1>
         <p>We matched you based on your skills and interests. Here's why:</p>
-        <input type="text" id="matchReason" class="feedback-input" placeholder="We matched you because of the following reason:..." disabled>
+        <textarea id="matchReason" class="feedback-input" placeholder="We matched you because of the following reason:..." disabled></textarea>
+
+
     </div>
 
     <div class="feedback-container">
@@ -84,6 +91,18 @@
         <!-- Barplot image will be displayed here -->
     </div>
 </div>
+<script>
+    // Fetch match explanation and update the placeholder
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/get_info_matches')  // Adjust to your Python endpoint
+            .then(response => response.json())
+            .then(data => {
+                const matchReasonInput = document.getElementById('matchReason');
+                matchReasonInput.placeholder = data.explanation || "No explanation available.";
+            })
+            .catch(error => console.error('Error fetching match explanation:', error));
+    });
+</script>
 
 <script>
     // Handle the "Return to Waiting" button click

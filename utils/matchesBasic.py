@@ -145,3 +145,57 @@ def programming_skills_match(group: Group, compatible_groups: List[Group]) -> Di
     for group2 in compatible_groups:
         programming_skills_values[group2] = programming_skills_match_pair(group, group2)
     return programming_skills_values
+
+def match_year(group: Group, compatible_groups: List[Group]) -> Dict[str, List[Group]]:
+    '''Matches groups based on their year of study'''
+    # Translate "1st year" to 1, "2nd year" to 2, etc. Masters to 5 and PhD to 6
+
+    def year_to_int(year):
+        if year == "1st year":
+            return 1
+        elif year == "2nd year":
+            return 2
+        elif year == "3rd year":
+            return 3
+        elif year == "4th year":
+            return 4
+        elif year == "Masters":
+            return 5
+        elif year == "PhD":
+            return 6
+        else:
+            return 0
+
+    year_values = {}
+    for group2 in compatible_groups:
+        year_values[group2] = 5 - abs(year_to_int(group.year_of_study) - year_to_int(group2.year_of_study))
+
+    return year_values
+
+def match_experience(group: Group, compatible_groups: List[Group]) -> Dict[str, List[Group]]:
+    '''Matches groups based on their experience level'''
+    # Translate "Beginner" to 0, "Intermediate" to 1, and "Advanced" to 2
+    def experience_to_int(exp):
+        if exp == "Beginner":
+            return 0
+        elif exp == "Intermediate":
+            return 1
+        elif exp == "Advanced":
+            return 2
+        else:
+            return 0
+
+    experience_values = {}
+    for group2 in compatible_groups:
+        experience_values[group2] = 5 - 2 * abs(experience_to_int(group.experience_level) - experience_to_int(group2.experience_level))
+    return experience_values
+
+def match_hackathons(group: Group, compatible_groups: List[Group]) -> Dict[str, List[Group]]:
+    '''Matches groups based on the number of hackathons done'''
+    hackathons_values = {}
+    for group2 in compatible_groups:
+        value = abs(group.hackathons_done - group2.hackathons_done)
+        value = (value - min(group.hackathons_done, group2.hackathons_done)) / (max(group.hackathons_done, group2.hackathons_done) - min(group.hackathons_done, group2.hackathons_done))
+        value = int(5 - value * 5)
+        hackathons_values[group2] 
+    return hackathons_values

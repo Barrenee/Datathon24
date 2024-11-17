@@ -14,7 +14,7 @@ def init_participant(data_participant) -> Group:
     Initializes a participant, abstracts it and returns a group with it
     param: data_participant: string or json file ? the one that is in the datafile with particpants
     '''
-    participant = ParticipantAbstract(data_participant)
+    participant = data_participant
     participant_abstracted = abstract_general(participant)
     group = Group(participant_abstracted)
     return group

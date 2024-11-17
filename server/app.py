@@ -4,10 +4,12 @@ from flask_socketio import SocketIO, emit
 import threading
 import time
 import uuid
-from api_handler import modify_weights, get_api_key
+from api_handler import modify_weights, get_api_key, decision_explainer
 import matplotlib.pyplot as plt
 import os
 from utils.abstraction import init_participant
+from ParticipantAbstract import ParticipantAbstract
+from utils.k_best import maikelfunction
 
 
 app = Flask(__name__)
@@ -27,6 +29,9 @@ people_second_round = []
 
 # Users as data
 user_participants = {}
+actual_match = None
+
+ready = False
 
 
 # Middleware to track user activity
@@ -55,7 +60,8 @@ def leave_matchmaking():
 def get_connected_users():
     """Return the count of connected users."""
     with lock:
-        return jsonify({'connected_users': len(connected_users)}), 200
+        length = len(connected_users) if ready else 0
+        return jsonify({'connected_users': length}), 200
 
 @app.route('/matchmaking_html')
 def matchmaking_html():
@@ -202,9 +208,9 @@ def submit_form():
         }
         
 
-        person = init_participant(Participant(**data))
+        person = ParticipantAbstract(Participant(**data))
         print("Processed data:")
-        print(person)
+        print(person.__dict__)
 
         print("\n\n")
 
@@ -219,12 +225,40 @@ def submit_form():
     else:
         return jsonify({'error': 'Invalid Content-Type. Expected application/json.'}), 415
 
-"""def trigger_matchmaking():
-    Perform matchmaking when conditions are met.
+def trigger_matchmaking():
+    global ready
+    """Perform matchmaking when conditions are met."""
     print("Matchmaking triggered!")
-    with lock:
-        for user_id in connected_users:
-            user_status[user_id] = 'waiting'"""
+    global actual_match
+    
+
+    actual_match = maikelfunction(user_participants.values(), 2)
+    group1, group2, value, positive, negative = actual_match
+    print(f"Matched groups: {group1}, {group2}: {value}")
+
+    # Check what id has as element group 1 and 2
+    ids = list(user_participants.keys())
+    
+    for i in range(len(ids)):
+        if user_participants[ids[i]] == group1:
+            group1 = ids[i]
+        if user_participants[ids[i]] == group2:
+            group2 = ids[i]
+
+    for id in ids:
+        if id != group1 and id != group2:
+            user_status[id] = 'waiting'
+        else:
+            user_status[id] = 'interaction'
+
+    ready = True
+
+@app.route('/get_info_matches', methods=['GET'])
+def get_info_matches():
+    global actual_match
+    group1, group2, value, positive, negative = actual_match
+    explanation = decision_explainer(get_api_key(), positive, negative)
+    return jsonify({'explanation': explanation}), 200
 
 
 @app.route('/submit_feedback', methods=['POST'])
@@ -234,7 +268,9 @@ def submit_feedback():
     print(f"Received feedback: {feedback}")
 
     # Example feature importance dictionary
-    feature_importance = {"skill_similitude": 0.6, "objective_similitude": 0.5}
+    feature_importance = {"roles_complimentary": 0.5, "interest_similarity": 0.5, "programming_skills_complimentary": 0.5, 
+                            "age_similarity": 0.5, "number_experience_similarity": 0.5, "number_hackatons_similarity": 0.5}
+
 
     api_key = get_api_key()
 
@@ -302,8 +338,8 @@ def generate_barplot(feature_importance, new_feature_importance):
     
 
 # Background thread to monitor matchmaking
-"""def matchmaking_monitor():
-    This function will run continuously in the background, checking for matchmaking conditions.
+def matchmaking_monitor():
+    """This function will run continuously in the background, checking for matchmaking conditions."""
     while True:
         try:
             trigger_matchmaking()  # Trigger matchmaking every 5 seconds
@@ -311,7 +347,7 @@ def generate_barplot(feature_importance, new_feature_importance):
             break
         except Exception as e:
             print(f"Error during matchmaking: {e}")
-        time.sleep(5)  # Check every 5 seconds"""
+        time.sleep(0.5)  # Check every 5 seconds"""
 
 # Start matchmaking monitor thread in the background
 #matchmaking_thread = threading.Thread(target=matchmaking_monitor, daemon=True)
