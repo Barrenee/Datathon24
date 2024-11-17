@@ -55,19 +55,56 @@ def get_connected_users():
 @app.route('/matchmaking_html')
 def matchmaking_html():
     """Add the user to matchmaking and set their status."""
+    
     with lock:
+        if not selected_first_round and people_first_round:
+            selected_first_round.append(people_first_round[0])
+            
+            for user_id in people_first_round:
+                if user_id != selected_first_round[0]:
+                    # Invert the user status
+                    user_status[user_id] = 'waiting' if user_status[user_id] == 'interaction' else 'interaction'
+                    print(f"User {user_id} status: {user_status[user_id]}")
+
+    with lock:
+        # Add the user to connected_users
         connected_users.add(g.user_id)
+
+        # Ensure the user hasn't been added already
         if g.user_id not in user_status:
-            user_status[g.user_id] = 'waiting'  # Default status when joining
+            if len(people_first_round) < 2:
+                # If the first round is not full, add the user
+                people_first_round.append(g.user_id)
+                user_status[g.user_id] = 'interaction'  # Set to 'interaction' for first round
+            
+    print(f"First round users: {people_first_round}")
+    print(f"Second round users: {selected_first_round}")
+    print(f"User statuses: {user_status}")
+
     return render_template('matchmaking.html')
+
+
 
 @app.route('/matchmaking_done')
 def matchmaking_done():
+    global people_first_round, selected_first_round, people_second_round
     """Serve the page corresponding to the user's status."""
     with lock:
-        # Default to 'waiting' if user is not yet processed
-        status = user_status.get(g.user_id, 'waiting')
+        if sum([1 for status in user_status.values() if status == 'interaction']) == 3 and ((not selected_first_round) or selected_first_round[0] != g.user_id):
+            # If two users are in the 'interaction' status, set their status to 'matched'
+            user_status[g.user_id] = 'waiting'
+            selected_first_round.clear()
+            selected_first_round = [user_id for user_id in people_first_round if user_id != g.user_id]
+
+    status = user_status.get(g.user_id, 'waiting')
+        
+    print(f"First round users: {people_first_round}")
+    print(f"Second round users: {selected_first_round}")
+    print(f"User statuses: {user_status}")
+
     return render_template(f"{status}.html")
+
+
 
 
 # SOCKET.IO EVENTS
