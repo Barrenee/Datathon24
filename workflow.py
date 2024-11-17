@@ -12,9 +12,9 @@ from utils.utils import print_group
 
 data = json.load(open("data/datathon_participants.json", "r"))
 
-
+# INIT
 all_groups = []
-for person in data[0:6]:
+for person in data[0:10]:
     all_groups.append(init_participant(ParticipantAbstract(Participant(**person))))
     
 merged_group = all_groups[0].merge_group(all_groups[1])
