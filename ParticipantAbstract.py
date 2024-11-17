@@ -1,5 +1,6 @@
 from participant import Participant
 from typing import Dict, List, Literal
+from utils.utils import preprocess_prog_skills
 
 
 class ParticipantAbstract(Participant):
@@ -12,6 +13,9 @@ class ParticipantAbstract(Participant):
         self.__dict__ = participant.__dict__.copy()
         #self.programming_level = None
         self.objective_abs = None
+        if self.preferred_languages == []:
+            self.preferred_languages = ["Catalan"] 
+        self.programming_skills = preprocess_prog_skills(self.programming_skills)
 
     # def add_expertise(self):
     #     if 
