@@ -57,8 +57,7 @@ def extract_properties(api_key, user_text, properties, cardinality, values_restr
         
         dict_ = json.loads(result)
         
-        print(result)
-        print(dict_['objective'])
+        
         
         return dict_['objective']
     except Exception as e:

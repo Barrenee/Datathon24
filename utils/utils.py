@@ -18,3 +18,13 @@ def preprocess_prog_skills(dict_: Dict[str, int]) -> Dict[str, int]:
         else:
             processed_dict[key.lower()] = value
     return processed_dict
+
+def print_group(group):
+    # Print just the basics so to understand de merge
+    print("----------------")
+    print(group.name)
+    print(group.roles_fullfilled)
+    print(group.objective_abs)
+    print(group.interest_in_challenges)
+
+    

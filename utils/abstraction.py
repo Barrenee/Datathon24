@@ -91,6 +91,6 @@ def abstract_objective(participant: ParticipantAbstract) -> ParticipantAbstract:
             participant.add_objective_abs(list(objective_abs_result))
         participant.add_objective_abs(objective_abs_result)
 
-        """with open(f"./cache_participants/{participant.id}.pkl", "wb") as output_file:
-            pkl.dump(participant, output_file)"""
+        with open(f"./cache_participants/{participant.id}.pkl", "wb") as output_file:
+            pkl.dump(participant, output_file)
         return participant

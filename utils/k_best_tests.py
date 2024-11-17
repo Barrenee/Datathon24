@@ -43,8 +43,7 @@ def maikelfunction(allgroups:  List[Group], k: int,matrix_bool: bool = False):
     
     # Find best pairs => Blossom algorithm
     pairs , values = find_disjoint_pairs(matrix, index_group) 
-    print(pairs)
-    print(values)
+
     # return the best pairs of groups
     group = max_antiguo[1]
     group2 = max_antiguo[2]
