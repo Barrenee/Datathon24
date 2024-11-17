@@ -11,7 +11,6 @@ class Table(dict):
         for key in keys:
             self.table[key] = []
 
-
     def initialize(self, allgroups: List[Group]):
         for key in self.keys_:
             for group in allgroups:
@@ -21,6 +20,14 @@ class Table(dict):
                     self.group_prefs[group].append(key)
         return self.table
 
+    def get_table(self):
+        return self.table    
+
+    def get_union(self, group):
+        result = set()
+        for key in self.preference_type(group):
+            result.update(self.table[key])
+        return result
 
     def update(self, group1: Group, group2: Group):
         """

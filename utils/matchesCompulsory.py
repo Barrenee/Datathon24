@@ -4,6 +4,24 @@ from typing import List, Dict
 from utils.Table import Table
 
 
+def get_compatible_groups(group: Group, challenges_table: Table, objectives_table: Table, languages_table: Table) -> List[List[Group]]:
+    language_union = languages_table.get_union(group)
+    objectives_union = objectives_table.get_union(group)
+    challenges_union = challenges_table.get_union(group)
+
+    compatible_groups = challenges_union.union(language_union.intersection(objectives_union))
+    compatible_groups = (compatible_groups)
+    compatible_groups.remove(group)
+    return compatible_groups
+    
+
+def build_matrix(allgroups: List[Group], challenges_table: Table, objectives_table: Table, languages_table: Table):
+    matrix = {}
+    for group in allgroups:
+        matrix[group] = get_compatible_groups(group, challenges_table, objectives_table, languages_table)
+    return matrix
+
+
 def find_possible_new_merge(group, all_groups:List[Group]) -> List[Group]:
     '''Returns the group that is the best fit to merge with the given group'''
     closest_groups = []
@@ -14,48 +32,6 @@ def find_possible_new_merge(group, all_groups:List[Group]) -> List[Group]:
                     if not(group2.roles_fullfilled.intersection(group.roles_fullfilled)): # Check if they have complementary roles
                         closest_groups.append(group2)
     return closest_groups
-
-
-def languages_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
-    '''Matches groups based on their preferred languages'''
-
-    result = {}
-    for language in LANGUAGES:
-        result[language] = []
-        for group in allgroups:
-            if language in group.preferred_languages:
-                result[language].append(group)
-
-    return result
-    #for langauge in LANGUAGES: 
-    
-
-def objectives_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
-    '''Matches groups based on their objectives'''
-
-    result = {}
-    for objective in OBJECTIVES:
-        result[objective] = []
-        for group in allgroups:
-            if objective in group.objective_abs:
-                result[objective].append(group)
-
-    return result
-    #for langauge in LANGUAGES:
-#def match(group1, group2):
-
-
-def challenges_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
-    '''Matches groups based on their interest in challenges'''
-
-    result = {}
-    for challenge in CHALLENGES:
-        result[challenge] = []
-        for group in allgroups:
-            if challenge in group.interest_in_challenges:
-                result[challenge].append(group)
-
-    return result
 
 
 def init_tables(allgroups):
