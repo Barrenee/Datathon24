@@ -52,7 +52,7 @@ def matchmaking_html():
     with lock:
         connected_users.add(g.user_id)
         if g.user_id not in user_status:
-            user_status[g.user_id] = 'interaction'  # Default status when joining
+            user_status[g.user_id] = 'waiting'  # Default status when joining
     return render_template('matchmaking.html')
 
 @app.route('/matchmaking_done')
@@ -60,7 +60,7 @@ def matchmaking_done():
     """Serve the page corresponding to the user's status."""
     with lock:
         # Default to 'waiting' if user is not yet processed
-        status = user_status.get(g.user_id, 'interaction')
+        status = user_status.get(g.user_id, 'waiting')
     return render_template(f"{status}.html")
 
 
@@ -149,7 +149,7 @@ def trigger_matchmaking():
     print("Matchmaking triggered!")
     with lock:
         for user_id in connected_users:
-            user_status[user_id] = 'interaction'
+            user_status[user_id] = 'waiting'
 
 # Background thread to monitor matchmaking
 def matchmaking_monitor():
