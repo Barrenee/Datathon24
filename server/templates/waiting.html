@@ -6,7 +6,80 @@
     <title>Waiting for Match</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./static/styles.css"> <!-- Include shared styles -->
+    <style>
+        /* General body and page styling */
+        body {
+          font-family: 'Bai Jamjuree', sans-serif;
+          margin: 0;
+          padding: 0;
+          background: linear-gradient(to bottom, rgba(0, 123, 255, 0.2), #f7f7f7);
+          color: #333;
+        }
+  
+        /* Main container */
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 2rem;
+          text-align: center;
+        }
+  
+        /* Header styles */
+        h1 {
+          font-size: 3rem;
+          font-weight: 800;
+          margin-bottom: 1.5rem;
+        }
+  
+        p {
+          font-size: 1.25rem;
+          color: #6c757d;
+          margin-bottom: 2rem;
+        }
+  
+        /* Button Container */
+        .btn-container {
+          display: flex;
+          justify-content: center;
+          gap: 10px; /* Adds 10px space between the buttons */
+          margin-top: 20px;
+        }
+  
+        .btn {
+          padding: 12px 20px;
+          font-size: 1.1rem;
+          border-radius: 5px;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          transition: background 0.3s ease;
+        }
+  
+        .btn-secondary {
+          background-color: #6c757d;
+          color: white;
+          border: 1px solid #6c757d;
+        }
+  
+        .btn-secondary:hover {
+          background-color: #5a6268;
+          border-color: #545b62;
+        }
+  
+        /* Countdown and connected users count */
+        #connected_users_count {
+          font-size: 1.5rem;
+          color: #333;
+          background-color: white;  /* White background for the box */
+          padding: 15px;            /* Add padding inside the box */
+          border-radius: 12px;      /* Round the corners */
+          display: inline-block;    /* Make it inline-block to keep it centered and sized properly */
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for a lifted look */
+          margin-bottom: 20px;      /* Space below the box */
+        }
+      </style>
 </head>
 <body>
     <div class="container text-center mt-5">
