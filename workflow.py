@@ -16,19 +16,28 @@ data = json.load(open("data/datathon_participants.json", "r"))
 all_groups = []
 for person in data[0:10]:
     all_groups.append(init_participant(ParticipantAbstract(Participant(**person))))
-    
-merged_group = all_groups[0].merge_group(all_groups[1])
 
-for group in all_groups:
-    print_group(group)
-    print("\n")
-pairs, values, positive, negative = maikelfunction(all_groups, 2)
 
-for group1, group2 in pairs:
-    print_group(group1)
-    print_group(group2)
-    
-    merged_group = group1.merge_group(group2)
-    print_group(merged_group)
-    print("\n")
+# ITERATE
+finished = False
+groups_complete = []
+
+while not finished:
+
+    for group in all_groups:
+        print_group(group)
+        print("\n")
+    pairs, values, positive, negative = maikelfunction(all_groups, 2)
+
+    all_groups_new = []
+    for group1, group2 in pairs:
+        print_group(group1)
+        print_group(group2)
+        
+        merged_group = group1.merge_group(group2)
+        print_group(merged_group)
+        all_groups_new.append(merged_group)
+        print("\n")
+
+    all_groups = all_groups_new
 #print(pairs, values, positive, negative)
