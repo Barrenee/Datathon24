@@ -12,8 +12,8 @@ class Group:
         self.interest_in_challenges: set[str] = participant.interest_in_challenges
         self.preferred_languages: set[str] = participant.preferred_languages
         self.interests: set[str] = participant.interests
-        #self.programming_level: dict[str, List[str]] = participant.programming_level
-        #self.expert_ptograms: set[str] = participant.expert_programs
+        self.programming_level: dict[str, List[str]] = participant.programming_level
+        #self.expert_programs: set[str] = participant.expert_programs
 
     def get_people_in_group(self) -> List[ParticipantAbstract]:
         return self.people_in_group
