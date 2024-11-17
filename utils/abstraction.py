@@ -1,6 +1,6 @@
 from participant import Participant
 from ParticipantAbstract import ParticipantAbstract
-#from api_handler import extract_properties
+from api_handler import extract_properties
 from config.value_tables import YEAR_EXPERTISE_GAIN, EXPERIENCE_LEVEL_VALUE
 from config.literals import OBJECTIVES
 from config.api_key import API_KEY
@@ -14,7 +14,7 @@ def init_participant(data_participant) -> Group:
     Initializes a participant, abstracts it and returns a group with it
     param: data_participant: string or json file ? the one that is in the datafile with particpants
     '''
-    participant = ParticipantAbstract(Participant(**data_participant))
+    participant = ParticipantAbstract(data_participant)
     participant_abstracted = abstract_general(participant)
     group = Group(participant_abstracted)
     return group
@@ -80,14 +80,14 @@ def abstract_objective(participant: ParticipantAbstract) -> ParticipantAbstract:
                 participant.objective_abs = participant_cache.objective_abs
                 return participant
     else:
-        """objective_abs = extract_properties(api_key= API_KEY,
+        objective_abs = extract_properties(api_key= API_KEY,
                        user_text= participant.objective, 
                        properties= "objective",
                        cardinality = ['single'],
                        values_restriction=[OBJECTIVES]
-                        )"""
+                        )
         
-        objective_abs = ["Learn", "Win"]
+        #objective_abs = ["Learn", "Win"]
         
         participant.add_objective_abs(objective_abs)
 

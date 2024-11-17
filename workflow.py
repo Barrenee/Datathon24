@@ -26,4 +26,3 @@ for group in all_groups:
     matched_interests = interests_match(group=group, compatible_groups=compatible_groups)
     matched_skills = programming_skills_match(group=group, compatible_groups=compatible_groups)
 
-
