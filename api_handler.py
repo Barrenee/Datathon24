@@ -219,13 +219,16 @@ def modify_weights(api_key, weights, feedback):
         print("Error parsing the response:", e)
         return weights
     
+def get_api_key():
+    # Read api key from api_key.txt
+    with open("./server/api_key.txt", "r") as file:
+        api_key = file.read().strip()
+    return api_key
 
 # Example usage
 if __name__ == "__main__":
     
-    # Read api key from api_key.txt
-    with open("./server/api_key.txt", "r") as file:
-        api_key = file.read().strip()
+
     
     user_text = "I love hiking, painting, and playing guitar. I also speak three languages fluently and have a black belt in karate. My favourite color is purple"
     properties = ["hobbies", "abilities", "favourite_color"]

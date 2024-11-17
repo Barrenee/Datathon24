@@ -4,8 +4,9 @@ from flask_socketio import SocketIO, emit
 import threading
 import time
 import uuid
-from api_handler import modify_weights
+from api_handler import modify_weights, get_api_key
 import matplotlib.pyplot as plt
+import os
 
 
 app = Flask(__name__)
@@ -166,7 +167,6 @@ def trigger_matchmaking():
             user_status[user_id] = 'interaction'
 
 
-# Insight processing:
 @app.route('/submit_feedback', methods=['POST'])
 def submit_feedback():
     data = request.json
@@ -176,31 +176,69 @@ def submit_feedback():
     # Example feature importance dictionary
     feature_importance = {"skill_similitude": 0.6, "objective_similitude": 0.5}
 
+    api_key = get_api_key()
+
     # Modify the feature importance based on the feedback
-    with open("server/api_key.txt", "a") as f:
-        api_key = f.readline()
     new_feature_importance = modify_weights(api_key, feature_importance, feedback)
 
     # Generate barplot
-    barplot_path = generate_barplot(feature_importance, new_feature_importance)
+    generate_barplot(feature_importance, new_feature_importance)
 
-    # Return the URL of the barplot
-    return jsonify({"barplot_url": barplot_path})
+    # Send back the response with the path to the image
+    return jsonify({'message': 'Feedback received!', 'barplot_url': '/get_barplot'}), 200
+
+
+@app.route('/get_barplot')
+def get_barplot():
+    return send_file('static/feature_importance.png', mimetype='image/png')
+
 
 def generate_barplot(feature_importance, new_feature_importance):
-    # Plot both feature importances in the same barplot
+    # Ensure the 'static' directory exists
+    static_dir = 'server/static'
+    if not os.path.exists(static_dir):
+        os.makedirs(static_dir)
 
-    fig, ax = plt.subplots()
-    ax.bar(feature_importance.keys(), feature_importance.values(), label='Original')
-    ax.bar(new_feature_importance.keys(), new_feature_importance.values(), label='Updated')
+    # Create a bar plot
+    fig, ax = plt.subplots(figsize=(10, 6))
+    width = 0.35
+
+    indices = range(len(feature_importance))
+
+    ax.bar(
+        indices,
+        feature_importance.values(),
+        width=width,
+        label='Original',
+        color='skyblue'
+    )
+    ax.bar(
+        [i + width for i in indices],
+        new_feature_importance.values(),
+        width=width,
+        label='Updated',
+        color='orange'
+    )
+
+    ax.set_xlabel('Features')
     ax.set_ylabel('Importance')
-    ax.set_title('Feature Importance')
+    ax.set_title('Feature Importance Comparison')
+    ax.set_xticks([i + width / 2 for i in indices])
+    ax.set_xticklabels(feature_importance.keys(), rotation=45, ha='right')
     ax.legend()
+    plt.tight_layout()
 
-    # Save the plot to a file
-    barplot_path = 'static/feature_importance.png'
+    barplot_path = os.path.join(static_dir, 'feature_importance.png')
     plt.savefig(barplot_path)
     plt.close()
+
+    # Ensure the file is ready
+    for _ in range(10):  # Retry for up to 1 second
+        if os.path.exists(barplot_path):
+            break
+        time.sleep(0.1)
+
+    return f'/{barplot_path}'
     
 
 # Background thread to monitor matchmaking
