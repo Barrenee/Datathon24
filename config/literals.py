@@ -7,11 +7,11 @@ LANGUAGES = [
     "Ukrainian", "Urdu", "Vietnamese", "Zulu"
 ]
 
-OBJECTIVES = ["Win", "Fun_Friends", "Learn"]
+OBJECTIVES = ["Win", "Fun", "Learn"]
 
-TRYHARD_VALUES = ["Extreme", "Medium", "Low", "None", "fiber"]
+TRYHARD_VALUES = ["Extreme", "Medium", "Low", "None"]
 
-EXPERIENCE = ["beginner", "intermediate", "advanced", "furry"]
+EXPERIENCE = ["beginner", "intermediate", "advanced"]
 
 ROLES = ["Analysis", "Visualization", "Development", "Design", "Don't know", "Don't care"]
 

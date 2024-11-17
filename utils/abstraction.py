@@ -9,7 +9,7 @@ import os
 from Group import Group
 
 
-def init_participant(data_participant) -> Group:
+def init_participant(data_participant: ParticipantAbstract) -> Group:
     '''
     Initializes a participant, abstracts it and returns a group with it
     param: data_participant: string or json file ? the one that is in the datafile with particpants
@@ -76,17 +76,18 @@ def abstract_objective(participant: ParticipantAbstract) -> ParticipantAbstract:
     if os.path.exists(f"./cache_participants/{participant.id}.pkl"):
         with open(f"./cache_participants/{participant.id}.pkl", "rb") as output_file:
             participant_cache = pkl.load(output_file)
-            if participant_cache.objective_abs:
+            
+            if participant_cache.objective_abs != []:
                 participant.objective_abs = participant_cache.objective_abs
                 return participant
     else:
         objective_abs = extract_properties(api_key= API_KEY,
                        user_text= participant.objective, 
-                       properties= "objective",
+                       properties= ["objective"],
                        cardinality = ['single'],
                        values_restriction=[OBJECTIVES]
                         )
-        
+        objective_abs = objective_abs["objective"]
         #objective_abs = ["Learn", "Win"]
         
         participant.add_objective_abs(objective_abs)
