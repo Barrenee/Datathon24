@@ -10,6 +10,7 @@ class Group:
         
         self.roles_fullfilled: List[str] = [participant.preferred_role]
         self.objective_abs: set[str] = participant.objective_abs # Abstracted objective
+        print(self.objective_abs)
         self.interest_in_challenges: set[str] = participant.interest_in_challenges
         self.preferred_languages: set[str] = participant.preferred_languages
         self.interests: set[str] = participant.interests

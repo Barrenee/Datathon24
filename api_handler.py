@@ -38,7 +38,7 @@ def extract_properties(api_key, user_text, properties, cardinality, values_restr
 
         prompt += addition
 
-    prompt += "\nReturn the result as a Python dictionary. Do not include any explanation or extra text and remember to respect the restrictions if there are any."
+    prompt += "\nReturn the result as a Python dictionary, following the structure: {objective : [list of properties or individual property]}. Do not include any explanation or extra text and remember to respect the restrictions if there are any. You should never include the \n character"
     
     # Call the OpenAI API
     openai.api_key = api_key
@@ -49,14 +49,18 @@ def extract_properties(api_key, user_text, properties, cardinality, values_restr
             {"role": "user", "content": prompt},
         ]
     )
+    #print(response)
 
     # Parse the API response
     try:
         result = response['choices'][0]['message']['content']
-        dict_ = json.load(result)
-        print(dict_)
         
-        return dict_
+        dict_ = json.loads(result)
+        
+        print(result)
+        print(dict_['objective'])
+        
+        return dict_['objective']
     except Exception as e:
         print("Error parsing the response:", e)
         return {prop: [] if card == 'multiple' else "" for prop, card in zip(properties, cardinality)}

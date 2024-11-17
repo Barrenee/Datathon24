@@ -16,6 +16,8 @@ data = json.load(open("data/datathon_participants.json", "r"))
 all_groups = []
 for person in data[0:6]:
     all_groups.append(init_participant(ParticipantAbstract(Participant(**person))))
-
+    
+print(all_groups[0].objective_abs)
+print(all_groups)
 pairs, values, positive, negative = maikelfunction(all_groups, 2)
-print(pairs, values, positive, negative)
+#print(pairs, values, positive, negative)
