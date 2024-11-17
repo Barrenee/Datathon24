@@ -56,12 +56,18 @@ def challenges_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
                 result[challenge].append(group)
 
     return result
-    #for langauge in LANGUAGES:
 
-def init_tables():
+
+def init_tables(allgroups):
     challenges_table = Table(CHALLENGES, Group.get_interest_in_challenges)
     objectives_table = Table(OBJECTIVES, Group.get_objective_abs)
     languages_table = Table(LANGUAGES, Group.get_preferred_languages)
+    
+    challenges_table.initialize(allgroups)
+    objectives_table.initialize(allgroups)
+    languages_table.initialize(allgroups)
+
+    return challenges_table, objectives_table, languages_table
 
 
 def find_obligatory_compatibles(all_groups:List[Group], table_language:Dict[str, List[Group]], table_objectives:Dict[str, List[Group]], table_challenges:Dict[str, List[Group]]) -> Dict[Group, List[Group]]:

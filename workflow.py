@@ -15,7 +15,7 @@ g2 = init_participant(data[1])
 
 all_groups = [g1, g2]
 
-init_tables()
+init_tables(all_groups)
 
 """
 table_language = languages_match(all_groups) # {language: [group1, group2, ...]}
