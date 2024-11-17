@@ -2,7 +2,7 @@
 ## Introducció
 En aquest projecte hem intentat desviar-nos de la solució habitual de clústering, mètodes no supervisats, o altres caixes negres (o intents d'interpretabilitat) que s'acostumen a utilitzar en la resolució de problemes com aquest. 
 
-Com a estudiants d'IA que sóm, sabem perfectament que la IA i el ML en general és una eina molt potent, però també que pot ser una caixa negra molt difícil de desxifrar, i sovint sobre-utilitzada, especialment en els últims anys. 
+Com a estudiants d'IA que sóm, sabem perfectament que la IA i el ML en general són una eina molt potent, però també que pot ser una caixa negra molt difícil de desxifrar, i sovint sobre-utilitzada, especialment en els últims anys. 
 Per això hem decidit implementar una solució que combina la millor part dels sistemes tradicionals de recomanació basats en coneixement, amb la flexibilitat i adaptabilitat dels sistemes de recomanació basats en ML.
 
 A través del coneixement que tenim sobre el domini amb el treballem, podem fer abstraccions i derivar regles que són absolutament clares per a un humà, i interpretables. 
