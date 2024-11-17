@@ -3,3 +3,5 @@ data_analyzerPB.py
 __pycache__/
 ./__pycache__/
 *.py[cod]
+/cache_participants/*
+/cache_participants
