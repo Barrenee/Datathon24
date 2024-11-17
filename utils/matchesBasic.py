@@ -81,7 +81,7 @@ def interests_match(group: Group, compatible_groups: List[Group]) -> Dict[str, L
         interest_values[group2] = interest_match_pair(group, group2)
     return interest_values
 
-#def programming_skills(group: Group, compatible_groups: Dict[List[Group]]) -> Dict[str, List[Group]]:
-    
+def programming_skills_match_pair(group1: Group, group2: Group) -> float:
+    for skill in group1.
     
     
