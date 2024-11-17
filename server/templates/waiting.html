@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiting for Match</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./static/styles.css"> <!-- Include shared styles -->
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1 class="mb-4 text-primary">Waiting for Match</h1>
+        <p class="mb-4 text-muted">A match hasn't been found for you yet. Please wait for the next round!</p>
+        <p class="mb-4">The next matchmaking attempt will occur in:</p>
+        <div class="countdown display-4 text-danger" id="countdown">60 seconds</div>
+    </div>
+
+    <script>
+        // Countdown timer
+        let countdownTime = 60; // in seconds
+
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            if (countdownTime > 0) {
+                countdownElement.textContent = `${countdownTime} seconds`;
+                countdownTime--;
+            } else {
+                countdownElement.textContent = "Please wait... next round is starting.";
+                // Optionally redirect or refresh the page after a certain time
+            }
+        }
+
+        // Update the countdown every second
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>

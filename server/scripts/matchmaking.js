@@ -17,10 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (element) {
                     element.textContent = `Connected users: ${data.connected_users}`;
                 }
+
+                // Redirect to matchmaking_done if users connected >= 1
+                if (data.connected_users >= 1) {
+                    window.location.href = '/matchmaking_done';
+                }
             })
             .catch(console.error);
     }
 
-    // Poll every x seconds
-    setInterval(updateConnectedUsers, 100);
+    // Poll every 1 second
+    setInterval(updateConnectedUsers, 1000);
 });
+
