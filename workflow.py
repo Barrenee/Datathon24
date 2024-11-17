@@ -6,6 +6,7 @@ from Group import Group
 from participant import Participant, load_participants
 from ParticipantAbstract import ParticipantAbstract
 import json
+from utils.k_best import maikelfunction
 
 
 
@@ -13,16 +14,7 @@ data = json.load(open("data/datathon_participants.json", "r"))
 
 
 all_groups = []
-for person in data:
+for person in data[0:3]:
     all_groups.append(init_participant(Participant(**person)))
 
-challenges_table, objectives_table, languages_table = init_tables(all_groups)
-
-for group in all_groups:
-    compatible_groups = get_compatible_groups(group, challenges_table, objectives_table, languages_table)
-
-
-    matched_roles = roles_match(group=group, compatible_groups=compatible_groups)
-    matched_interests = interests_match(group=group, compatible_groups=compatible_groups)
-    matched_skills = programming_skills_match(group=group, compatible_groups=compatible_groups)
-
+maikelfunction(all_groups, 2)
