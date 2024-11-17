@@ -1,6 +1,7 @@
 from Group import Group
 from config.literals import LANGUAGES, OBJECTIVES, CHALLENGES
 from typing import List, Dict
+from utils.Table import Table
 
 
 def find_possible_new_merge(group, all_groups:List[Group]) -> List[Group]:
@@ -26,8 +27,7 @@ def languages_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
                 result[language].append(group)
 
     return result
-    #for langauge in LANGUAGES:
-        
+    #for langauge in LANGUAGES: 
     
 
 def objectives_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
@@ -45,7 +45,6 @@ def objectives_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
 #def match(group1, group2):
 
 
-
 def challenges_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
     '''Matches groups based on their interest in challenges'''
 
@@ -58,3 +57,32 @@ def challenges_match(allgroups: List[Group]) -> Dict[str, List[Group]]:
 
     return result
     #for langauge in LANGUAGES:
+
+def init_tables():
+    challenges_table = Table(CHALLENGES, Group.get_interest_in_challenges)
+    objectives_table = Table(OBJECTIVES, Group.get_objective_abs)
+    languages_table = Table(LANGUAGES, Group.get_preferred_languages)
+
+
+def find_obligatory_compatibles(all_groups:List[Group], table_language:Dict[str, List[Group]], table_objectives:Dict[str, List[Group]], table_challenges:Dict[str, List[Group]]) -> Dict[Group, List[Group]]:
+    '''Finds the groups that are compatible with each other'''
+    compatibles = {}
+    for group in all_groups:
+        compatibles[group] = set()
+        language_set = set()
+        objective_set = set()
+        challenge_set = set()
+
+        for language in group.preferred_languages:
+            language_set = set(table_language[language]).union(language_set)
+        
+        for objective in group.objective_abs:
+            objective_set = set(table_objectives[objective]).union(objective_set)
+
+        for challenge in group.interest_in_challenges:
+            challenge_set = set(table_challenges[challenge]).union(challenge_set)
+
+        compatibles[group] = language_set.intersection(objective_set) # Get the groups that have the same language and objective preferences
+        compatibles[group] = compatibles[group].intersection(challenge_set)
+        compatibles[group].remove(group)
+    return compatibles

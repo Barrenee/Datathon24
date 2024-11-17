@@ -1,11 +1,33 @@
 from participant import Participant
 from ParticipantAbstract import ParticipantAbstract
-from api_handler import extract_properties
-from config.value_tables import YEAR_EXPERTISE_GAIN
+#from api_handler import extract_properties
+from config.value_tables import YEAR_EXPERTISE_GAIN, EXPERIENCE_LEVEL_VALUE
 from config.literals import OBJECTIVES
 from config.api_key import API_KEY
 import pickle as pkl
 import os
+from Group import Group
+
+
+def init_participant(data_participant) -> Group:
+    '''
+    Initializes a participant, abstracts it and returns a group with it
+    param: data_participant: string or json file ? the one that is in the datafile with particpants
+    '''
+    participant = ParticipantAbstract(Participant(**data_participant))
+    participant_abstracted = abstract_general(participant)
+    group = Group(participant_abstracted)
+    return group
+
+def abstract_general(participant: ParticipantAbstract) -> ParticipantAbstract:
+    """
+    Applies every abstraction rule in the corresponding order
+    """
+    participant = abstract_objective(participant)
+    participant = abstract_expertise(participant)
+    participant = abstract_tryhard(participant)
+    return participant
+    
 
 
 def abstract_tryhard(participant: ParticipantAbstract) -> ParticipantAbstract:
@@ -43,7 +65,7 @@ def abstract_expertise(participant: ParticipantAbstract) -> ParticipantAbstract:
     # 4o => +3
     # M => +4
     # D => +6
-    expertise = exp_level + YEAR_EXPERTISE_GAIN[year]
+    expertise = EXPERIENCE_LEVEL_VALUE[exp_level] + YEAR_EXPERTISE_GAIN[year]
   
     
     participant.expertise = expertise
@@ -51,8 +73,8 @@ def abstract_expertise(participant: ParticipantAbstract) -> ParticipantAbstract:
 
     
 def abstract_objective(participant: ParticipantAbstract) -> ParticipantAbstract:
-    if os.path.exists(f"./cache_participants/{participant}.pkl")
-        with open(f"./cache_participants/{participant}.pkl", "wb") as output_file:
+    if os.path.exists(f"./cache_participants/{participant.id}.pkl"):
+        with open(f"./cache_participants/{participant.id}.pkl", "rb") as output_file:
             participant_cache = pkl.load(output_file)
             if participant_cache.objective_abs:
                 participant.objective_abs = participant_cache.objective_abs
@@ -68,6 +90,7 @@ def abstract_objective(participant: ParticipantAbstract) -> ParticipantAbstract:
         objective_abs = ["Learn", "Win"]
         
         participant.add_objective_abs(objective_abs)
-        with open(f"./cache_participants/{participant}.pkl", "wb") as output_file:
+
+        with open(f"./cache_participants/{participant.id}.pkl", "wb") as output_file:
             pkl.dump(participant, output_file)
         return participant

@@ -26,3 +26,4 @@ class ParticipantAbstract(Participant):
     def add_objective_abs(self, objective_abs: Literal["Win", "Fun_Friends", "Learn"]):
         self.objective_abs = objective_abs
         
+    
