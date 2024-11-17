@@ -3,13 +3,29 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import matplotlib.patches as patches
+from config.literals import LANGUAGES
+from utils.matchesCompulsory import find_obligatory_compatibles, init_tables, get_compatible_groups
+from utils.abstraction import abstract_objective, abstract_expertise, abstract_tryhard, abstract_general, init_participant
+from utils.matchesBasic import  roles_match, interests_match, programming_skills_match
+from Group import Group
+from participant import Participant, load_participants
+from ParticipantAbstract import ParticipantAbstract
+import json
+from utils.k_best import maikelfunction
+
+
+
+data = json.load(open("data/datathon_participants.json", "r"))
+
+
+all_groups = []
+for person in data[0:6]:
+    all_groups.append(init_participant(ParticipantAbstract(Participant(**person))))
+
+group1, group2, value, positive, negative, matrix = maikelfunction(all_groups, 2, matrix_bool=True)
 
 # Crear una matriz de calor simétrica de ejemplo (por ejemplo, una matriz 10x10 de valores aleatorios)
-size = 10  # Tamaño de la matriz
-heatmap_data = np.random.rand(size, size)
-
-# Hacer la matriz simétrica (es decir, matriz[i,j] = matriz[j,i])
-heatmap_data = (heatmap_data + heatmap_data.T) / 2  # Hacerla simétrica tomando la media
+size = len(matrix)
 
 # Lista de tuplas con nombres de grupos válidos, corregida
 tuplas = [

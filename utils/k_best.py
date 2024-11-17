@@ -7,7 +7,7 @@ from math import inf
 from utils.Table import Table
 
 
-def maikelfunction(allgroups:  List[Group], k: int):
+def maikelfunction(allgroups:  List[Group], k: int,matrix_bool: bool = False):
     '''Returns the number of common elements between two lists'''
     
     topk_dict = {}
@@ -46,6 +46,8 @@ def maikelfunction(allgroups:  List[Group], k: int):
     group = max_antiguo[1]
     group2 = max_antiguo[2]
     value = max_antiguo[0]
+    if matrix_bool:
+        return group, group2, value, ["Role" "Programming_skills"],  ["Interests"], matrix
     return group, group2, value, ["Role" "Programming_skills"],  ["Interests"]
 
 def index_dict(allgroups):
