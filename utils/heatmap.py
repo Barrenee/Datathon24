@@ -11,18 +11,12 @@ heatmap_data = np.random.rand(size, size)
 # Hacer la matriz simétrica (es decir, matriz[i,j] = matriz[j,i])
 heatmap_data = (heatmap_data + heatmap_data.T) / 2  # Hacerla simétrica tomando la media
 
-# Lista de tuplas con nombres de grupos válidos, sin "Group0"
+# Lista de tuplas con nombres de grupos válidos, corregida
 tuplas = [
-    ("Group2", "Group3"),         # Tupla de 2 elementos
-    ("Group6", "Group7", "Group5"),  # Tupla de 3 elementos
-    ("Group1", "Group9"),         # Tupla de 2 elementos
-    ("Group1", "Group2", "Group3"),  # Tupla de 3 elementos
-    ("Group6", "Group4"),         # Tupla de 2 elementos
-    ("Group8", "Group9"),         # Tupla de 2 elementos
-    ("Group3", "Group4"),         # Tupla de 2 elementos
-    ("Group9", "Group10"),         # Tupla de 2 elementos
-    ("Group7", "Group5", "Group8"),  # Tupla de 3 elementos
-    ("Group2", "Group3", "Group4", "Group5")  # Tupla de 4 elementos
+    ("Group2", "Group3"),
+    ("Group1", "Group4"),
+    ("Group6", "Group7"),  # Corregido: separar los nombres en elementos distintos
+    ("Group5", "Group8", "Group9", "Group10"),
 ]
 
 # Crear etiquetas personalizadas para los grupos
