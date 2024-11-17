@@ -55,15 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
         chatBox.appendChild(chatMessage);
         chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to the bottom
     });
-    
-  
-    
 
     document.getElementById('rejectButton').addEventListener('click', function() {
         // Emit the 'reject_match' event without needing user_id from JavaScript
         socket.emit('reject_match'); // Send the event to the server to handle rejection
     });
-    
 
     socket.on('redirect_to_why', function() {
         // Redirect to the 'why' page
@@ -71,7 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = '/why';
     });
 
+    socket.on('redirect_to_congratulations', function () {
+        // Redirect to the 'congratulations' page
+        console.log("Redirecting to 'congratulations' page...");
+        window.location.href = '/congratulations';
+    });
+
     document.getElementById("acceptButton").addEventListener("click", function () {
-        alert("You accepted the match.");
+        socket
     });
 });

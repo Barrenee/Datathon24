@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congratulations</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Bai Jamjuree', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main container styling */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Header styling */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Paragraph styling */
+        p {
+            font-size: 1.25rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        /* Strengths styling */
+        #strengths {
+            font-size: 1.5rem;
+            color: #28a745;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        /* Button styling */
+        .btn-home {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-home:hover {
+            background-color: #0056b3;
+        }
+
+        /* For smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            p, #strengths {
+                font-size: 1.125rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Congratulations!</h1>
+        <p>Your main strengths will be:</p>
+        <p id="strengths">Loading...</p>
+
+        <!-- Return to Home Button -->
+        <a href="/" class="btn-home">Return to Home</a>
+    </div>
+
+    <script>
+        // Simulate loading additional data about user's strengths
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                document.getElementById("strengths").textContent = "Leadership, Teamwork, and Problem Solving!";
+            }, 3000); // Simulate a 3-second delay
+        });
+    </script>
+</body>
+
+</html>

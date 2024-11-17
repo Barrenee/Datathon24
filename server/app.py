@@ -16,7 +16,7 @@ lock = threading.Lock()  # Lock for thread-safe access
 
 # Initialize SocketIO
 socketio = SocketIO(app)
-
+acceptances = 0
 
 # Middleware to track user activity
 @app.before_request
@@ -52,7 +52,7 @@ def matchmaking_html():
     with lock:
         connected_users.add(g.user_id)
         if g.user_id not in user_status:
-            user_status[g.user_id] = 'waiting'  # Default status when joining
+            user_status[g.user_id] = 'interaction'  # Default status when joining
     return render_template('matchmaking.html')
 
 @app.route('/matchmaking_done')
@@ -60,7 +60,7 @@ def matchmaking_done():
     """Serve the page corresponding to the user's status."""
     with lock:
         # Default to 'waiting' if user is not yet processed
-        status = user_status.get(g.user_id, 'waiting')
+        status = user_status.get(g.user_id, 'interaction')
     return render_template(f"{status}.html")
 
 
@@ -84,10 +84,6 @@ def handle_message(data):
         'message': data['message'],
     }, broadcast=True, include_self=False)
 
-@app.route('/why')
-def why():
-    return render_template('why.html')
-
 # Handle the reject match event from any user
 @socketio.on('reject_match')
 def handle_reject_match():
@@ -97,6 +93,14 @@ def handle_reject_match():
     # Perform any necessary actions after rejection
     # For example, you could broadcast this rejection to others:
     emit('redirect_to_why', {'message': 'One of the users rejected the match'}, broadcast=True)
+
+@socketio.on('accept_match')
+def handle_accept_match():
+    global acceptances
+    acceptances += 1
+    print(f"User accepted the match. Acceptances: {acceptances}")
+    if acceptances == 1:
+        emit('redirect_to_congratulations', {'message': 'Both users accepted the match'}, broadcast=True)
 
 
 
@@ -118,9 +122,17 @@ def script_get_inscription():
 def script_matchmaking():
     return send_file('./scripts/matchmaking.js')
 
+@app.route('/congratulations')
+def congratulations():
+    return render_template('congratulations.html')
+
 @app.route('/script_interaction')
 def script_interaction():
     return send_file('./scripts/interaction.js')
+
+@app.route('/why')
+def why():
+    return render_template('why.html')
 
 @app.route('/submit_form', methods=['POST'])
 def submit_form():
@@ -149,7 +161,7 @@ def trigger_matchmaking():
     print("Matchmaking triggered!")
     with lock:
         for user_id in connected_users:
-            user_status[user_id] = 'waiting'
+            user_status[user_id] = 'interaction'
 
 # Background thread to monitor matchmaking
 def matchmaking_monitor():
