@@ -3,7 +3,7 @@ from ParticipantAbstract import ParticipantAbstract
 from api_handler import extract_properties
 from config.value_tables import YEAR_EXPERTISE_GAIN, EXPERIENCE_LEVEL_VALUE
 from config.literals import OBJECTIVES
-from config.api_key import API_KEY
+#from config.api_key import API_KEY
 import pickle as pkl
 import os
 from Group import Group

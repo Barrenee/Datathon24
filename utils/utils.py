@@ -27,4 +27,11 @@ def print_group(group):
     print(group.objective_abs)
     print(group.interest_in_challenges)
 
-    
+def  print_group_matches(group1, group2, merged):
+    print("-- Group 1 --")
+    print_group(group1)
+    print("-- Group 2 --")
+    print_group(group2)
+    print("\n== Merged ==>")
+    print_group(merged)
+    print("\n")
