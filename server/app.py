@@ -6,6 +6,7 @@ import time
 import uuid
 from api_handler import modify_weights, get_api_key, decision_explainer
 import matplotlib.pyplot as plt
+import random
 import os
 from utils.abstraction import init_participant
 from ParticipantAbstract import ParticipantAbstract
@@ -30,6 +31,7 @@ people_second_round = []
 # Users as data
 user_participants = {}
 actual_match = None
+characteristics = None
 
 ready = False
 
@@ -60,8 +62,12 @@ def leave_matchmaking():
 def get_connected_users():
     """Return the count of connected users."""
     with lock:
-        length = len(connected_users) if ready else 0
-        return jsonify({'connected_users': length}), 200
+        return jsonify({'connected_users': len(connected_users)}), 200
+    
+@app.route('/ready_to_match', methods=['GET'])
+def ready_to_match():
+    global ready
+    return jsonify({'ready': ready}), 200
 
 @app.route('/matchmaking_html')
 def matchmaking_html():
@@ -231,35 +237,74 @@ def trigger_matchmaking():
     print("Matchmaking triggered!")
     global actual_match
     
+    if False:
+        actual_match = maikelfunction(user_participants.values(), 2)
+        group1, group2, value, positive, negative = actual_match
+        print(f"Matched groups: {group1}, {group2}: {value}")
 
-    actual_match = maikelfunction(user_participants.values(), 2)
-    group1, group2, value, positive, negative = actual_match
-    print(f"Matched groups: {group1}, {group2}: {value}")
+        # Check what id has as element group 1 and 2
+        ids = list(user_participants.keys())
+        
+        for i in range(len(ids)):
+            if user_participants[ids[i]] == group1:
+                group1 = ids[i]
+            if user_participants[ids[i]] == group2:
+                group2 = ids[i]
 
-    # Check what id has as element group 1 and 2
-    ids = list(user_participants.keys())
-    
-    for i in range(len(ids)):
-        if user_participants[ids[i]] == group1:
-            group1 = ids[i]
-        if user_participants[ids[i]] == group2:
-            group2 = ids[i]
+        for id in ids:
+            if id != group1 and id != group2:
+                user_status[id] = 'waiting'
+            else:
+                user_status[id] = 'interaction'
 
-    for id in ids:
-        if id != group1 and id != group2:
-            user_status[id] = 'waiting'
-        else:
-            user_status[id] = 'interaction'
-
-    ready = True
+        ready = True
+    else:
+        if connected_users:
+            ids = list(connected_users)
+            user_status.clear()
+            user_status[ids[0]] = 'interaction'
+            if len(ids) > 1:
+                user_status[ids[1]] = 'interaction'
+            if len(ids) > 2:
+                user_status[ids[2]] = 'waiting'
+            if len(ids) >= 1:
+                ready = True
+                print("Matchmaking done!")
 
 @app.route('/get_info_matches', methods=['GET'])
 def get_info_matches():
+    global characteristics
     global actual_match
-    group1, group2, value, positive, negative = actual_match
+    if False:
+        group1, group2, value, positive, negative = actual_match
+        explanation = decision_explainer(get_api_key(), positive, negative)
+        return jsonify({'explanation': explanation}), 200
+    else:
+        possible_traits = [
+        {"positive": ["Role complimentary", "Programming skills complimentary"],
+        "negative": ["experience similarity", "interest similarity"]},
+        {"positive": ["year age similarity", "Programming skills complimentary", "interest similarity"],
+        "negative": ["role complimentary"]}]
+        if not characteristics:
+            characteristics = random.choice(possible_traits)
+        else: 
+            characteristics = possible_traits[0] if characteristics == possible_traits[1] else possible_traits[1]
+        positive = characteristics["positive"]
+        negative = characteristics["negative"]
+        explanation = decision_explainer(get_api_key(), positive, negative)
+        return jsonify({'explanation': explanation}), 200 
+
+@app.route('/get_info_explanation', methods=['GET'])
+def get_info_explanation():
+    global characteristics
+    
+    if characteristics:
+        positive = characteristics["positive"]
+    else:
+        positive = ["Role complimentary", "Programming skills complimentary"]
+    negative = []
     explanation = decision_explainer(get_api_key(), positive, negative)
     return jsonify({'explanation': explanation}), 200
-
 
 @app.route('/submit_feedback', methods=['POST'])
 def submit_feedback():
@@ -339,19 +384,21 @@ def generate_barplot(feature_importance, new_feature_importance):
 
 # Background thread to monitor matchmaking
 def matchmaking_monitor():
+    global ready
     """This function will run continuously in the background, checking for matchmaking conditions."""
     while True:
+        if ready:
+            ready = False
         try:
             trigger_matchmaking()  # Trigger matchmaking every 5 seconds
             # Stop the thread 
-            break
         except Exception as e:
             print(f"Error during matchmaking: {e}")
-        time.sleep(0.5)  # Check every 5 seconds"""
+        time.sleep(5)  # Check every 5 seconds"""
 
 # Start matchmaking monitor thread in the background
-#matchmaking_thread = threading.Thread(target=matchmaking_monitor, daemon=True)
-#matchmaking_thread.start()
+matchmaking_thread = threading.Thread(target=matchmaking_monitor, daemon=True)
+matchmaking_thread.start()
 
 # Start the Flask app
 socketio.run(app, host='0.0.0.0', port=5000, debug=True)

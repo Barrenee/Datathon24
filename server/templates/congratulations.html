@@ -92,13 +92,28 @@
     </div>
 
     <script>
-        // Simulate loading additional data about user's strengths
+        // Load additional data about user's strengths from the get_info_explanation endpoint
         document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
-                document.getElementById("strengths").textContent = "Leadership, Teamwork, and Problem Solving!";
-            }, 3000); // Simulate a 3-second delay
+                fetch('/get_info_explanation')
+                    .then(response => response.json())
+                    .then(data => {
+                        const strengthsElement = document.getElementById("strengths");
+                        if (strengthsElement) {
+                            strengthsElement.textContent = data.explanation || "No information available.";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching explanation:", error);
+                        const strengthsElement = document.getElementById("strengths");
+                        if (strengthsElement) {
+                            strengthsElement.textContent = "Failed to load information.";
+                        }
+                    });
+            }, 3000); // Simulate a 3-second delay before making the call
         });
     </script>
+    
 </body>
 
 </html>
