@@ -14,6 +14,21 @@ class Group:
         #self.programming_level: dict[str, List[str]] = participant.programming_level
         #self.expert_ptograms: set[str] = participant.expert_programs
 
+    def get_people_in_group(self) -> List[ParticipantAbstract]:
+        return self.people_in_group
+    
+    def get_roles_fullfilled(self) -> List[str]:
+        return self.roles_fullfilled
+    
+    def get_objective_abs(self) -> set[str]:
+        return self.objective_abs
+    
+    def get_interest_in_challenges(self) -> set[str]:
+        return self.interest_in_challenges
+    
+    def get_preferred_languages(self) -> set[str]:
+        return self.preferred_languages
+
     def merge_group(self, group: 'Group'):
         '''Merges both groups and actualizes the group's attributes'''
         self.people_in_group.extend(group.people_in_group) # Add people to the group
