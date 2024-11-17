@@ -54,7 +54,7 @@ class ParticipantAbstract():
         self.tryhard = tryhard
 
 
-    def add_objective_abs(self, objective_abs: Literal["Win", "Fun_Friends", "Learn"]):
+    def add_objective_abs(self, objective_abs: Literal["Win", "Fun", "Learn"]):
         self.objective_abs = objective_abs
         
     

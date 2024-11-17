@@ -11,7 +11,7 @@ from Group import Group
 from participant import Participant, load_participants
 from ParticipantAbstract import ParticipantAbstract
 import json
-from utils.k_best import maikelfunction
+from utils.k_best_tests import maikelfunction
 
 
 
@@ -22,20 +22,23 @@ all_groups = []
 for person in data[0:6]:
     all_groups.append(init_participant(ParticipantAbstract(Participant(**person))))
 
-group1, group2, value, positive, negative, matrix = maikelfunction(all_groups, 2, matrix_bool=True)
+tuplas, _, _, _, matrix = maikelfunction(all_groups, 2, matrix_bool=True)
+print(matrix, tuplas)
+
+matrix[matrix == -np.inf] = 0
 
 # Crear una matriz de calor simétrica de ejemplo (por ejemplo, una matriz 10x10 de valores aleatorios)
 size = len(matrix)
 
 # Lista de tuplas con nombres de grupos válidos, corregida
-tuplas = [
-    ("Group2", "Group3"),
-    ("Group1", "Group4"),
-    ("Group6", "Group7"),  # Corregido: separar los nombres en elementos distintos
-    ("Group5", "Group8", "Group9", "Group10"),
-]
+# tuplas = [
+#     ("Group2", "Group3"),
+#     ("Group1", "Group4"),
+#     ("Group6", "Group7"),  # Corregido: separar los nombres en elementos distintos
+#     ("Group5", "Group8", "Group9", "Group10"),
+# ]
 
-# Crear etiquetas personalizadas para los grupos
+# # Crear etiquetas personalizadas para los grupos
 group_labels = [f"Group{i+1}" for i in range(size)]  # Nombres de grupos como Group1, Group2, ...
 
 def create_heatmap_animation(heatmap_data: np.ndarray, group_labels: list, tuplas: list):
@@ -81,4 +84,6 @@ def create_heatmap_animation(heatmap_data: np.ndarray, group_labels: list, tupla
     plt.show()
 
 # Crear la animación del heatmap con las tuplas y nombres de grupos dados
-create_heatmap_animation(heatmap_data, group_labels, tuplas)
+create_heatmap_animation(matrix, group_labels, tuplas)
+
+

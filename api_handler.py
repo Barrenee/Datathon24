@@ -1,4 +1,7 @@
 import openai # Version 0.28
+import json 
+
+
 
 def extract_properties(api_key, user_text, properties, cardinality, values_restriction):
     """
@@ -36,7 +39,7 @@ def extract_properties(api_key, user_text, properties, cardinality, values_restr
         prompt += addition
 
     prompt += "\nReturn the result as a Python dictionary. Do not include any explanation or extra text and remember to respect the restrictions if there are any."
-
+    
     # Call the OpenAI API
     openai.api_key = api_key
     response = openai.ChatCompletion.create(
@@ -50,7 +53,10 @@ def extract_properties(api_key, user_text, properties, cardinality, values_restr
     # Parse the API response
     try:
         result = response['choices'][0]['message']['content']
-        return eval(result)
+        dict_ = json.load(result)
+        print(dict_)
+        
+        return dict_
     except Exception as e:
         print("Error parsing the response:", e)
         return {prop: [] if card == 'multiple' else "" for prop, card in zip(properties, cardinality)}
@@ -260,3 +266,56 @@ if __name__ == "__main__":
     feedback = {"i didn't really care about the knowledge level, i'm looking to work with different people, but i would have liked to have the same job goals"}
     #result = modify_weights(api_key, weights, feedback)
     #print(result)
+
+
+
+
+    #Other example
+    user_text = "I enjoy climbing, cooking, and reading novels. I am fluent in Spanish and English and have a degree in engineering. My favourite color is blue."
+    properties = ["hobbies", "languages", "favourite_color"]
+    cardinality = ["multiple", "multiple", "single"]
+    restrictions = [None, None, ["blue", "green", "yellow"]]
+
+    # result = extract_properties(api_key, user_text, properties, cardinality, restrictions)
+    # print(result)
+
+
+    first_text = "I love photography and rock climbing. I am proficient in JavaScript and hope to work in AI someday."
+    second_text = "I enjoy painting and hiking. I am proficient in Python and dream of working in AI in the future."
+    levels = ["low", "medium", "high"]
+    objective = "career aspirations"
+
+    # result = extract_similitude(api_key, first_text, second_text, objective, levels)
+    # print(result)
+
+
+    first_description = "I love climbing and cooking. I speak three languages fluently and aspire to be a scientist."
+    second_description = "I enjoy painting and writing poetry. I am fluent in two languages and hope to work in technology."
+    additional_info = "Focus on merging hobbies and career aspirations."
+
+    # result = merge_property(api_key, first_description, second_description, additional_info)
+    # print(result)
+
+
+    matches_with_group = ["shared hobbies", "similar career aspirations"]
+    does_not_match_group = ["different knowledge levels", "language barriers"]
+
+    # result = decision_explainer(api_key, matches_with_group, does_not_match_group)
+    # print(result)
+
+
+    weights = {
+        "hobbies compatibility": 0.4,
+        "career alignment": 0.3,
+        "language fluency": 0.2,
+        "knowledge level difference": 0.1
+    }
+    feedback = {
+        "I value hobbies more than language fluency, and knowledge level differences are less important to me."
+    }
+
+    # result = modify_weights(api_key, weights, feedback)
+    # print(result)
+
+
+

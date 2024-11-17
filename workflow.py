@@ -6,7 +6,7 @@ from Group import Group
 from participant import Participant, load_participants
 from ParticipantAbstract import ParticipantAbstract
 import json
-from utils.k_best import maikelfunction
+from utils.k_best_tests import maikelfunction
 
 
 
@@ -17,5 +17,5 @@ all_groups = []
 for person in data[0:6]:
     all_groups.append(init_participant(ParticipantAbstract(Participant(**person))))
 
-group1, group2, value, positive, negative = maikelfunction(all_groups, 2)
-print(group1, group2, value, positive, negative)
+pairs, values, positive, negative = maikelfunction(all_groups, 2)
+print(pairs, values, positive, negative)
