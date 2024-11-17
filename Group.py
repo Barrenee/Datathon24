@@ -3,6 +3,7 @@ from typing import List, Callable
 
 class Group:
     def __init__(self, participant: ParticipantAbstract):
+        self.id = participant.id
         self.people_in_group: List[ParticipantAbstract] = [participant]
         self.group_size: int = len(self.people_in_group)
         self.preferred_team_size: int = participant.preferred_team_size
@@ -12,7 +13,7 @@ class Group:
         self.interest_in_challenges: set[str] = participant.interest_in_challenges
         self.preferred_languages: set[str] = participant.preferred_languages
         self.interests: set[str] = participant.interests
-        self.programming_level: dict[str, List[str]] = participant.programming_level
+        self.programming_skills: dict[str, int] = participant.programming_skills
         #self.expert_programs: set[str] = participant.expert_programs
 
     def get_people_in_group(self) -> List[ParticipantAbstract]:
