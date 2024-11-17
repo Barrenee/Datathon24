@@ -7,6 +7,7 @@ import uuid
 from api_handler import modify_weights, get_api_key
 import matplotlib.pyplot as plt
 import os
+from utils.abstraction import init_participant
 
 
 app = Flask(__name__)
@@ -23,6 +24,10 @@ acceptances = 0
 people_first_round = []
 selected_first_round = []
 people_second_round = []
+
+# Users as data
+user_participants = {}
+
 
 # Middleware to track user activity
 @app.before_request
@@ -195,10 +200,20 @@ def submit_form():
         data['programming_skills'] = {
             skill: value for skill, value in data['programming_skills'].items() if value != 0
         }
+        
 
-        person = Participant(**data)
+        person = init_participant(Participant(**data))
         print("Processed data:")
         print(person)
+
+        print("\n\n")
+
+
+        user_participants[g.user_id] = init_participant(person)
+        print("Processed data:")
+        print(user_participants[g.user_id])
+
+
 
         return jsonify({'message': 'Form submitted successfully!', 'data': data}), 200
     else:
