@@ -3,6 +3,7 @@ from typing import List, Callable
 
 class Group:
     def __init__(self, participant: ParticipantAbstract):
+        self.name = participant.name
         self.id = participant.id
         self.people_in_group: List[ParticipantAbstract] = [participant]
         self.group_size: int = len(self.people_in_group)
@@ -46,9 +47,8 @@ class Group:
     def update_programming_level(self, group: 'Group'):
         '''Updates the programming level of the group'''
         for key, value in group.programming_level.items():
-            if key in self.programming_level:
-                if self.programming_level[key] != value:
-                    self.programming_level[key].append(value)
+            if key in self.programming_level.keys():
+                self.programming_level[key] = max(self.programming_level[key], value)
             else:
                 self.programming_level[key] = value
 
