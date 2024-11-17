@@ -11,7 +11,7 @@ document.getElementById('inscriptionForm').addEventListener('submit', function(e
         shirt_size: document.getElementById('shirt_size').value,
         university: document.getElementById('university').value,
         dietary_restrictions: document.getElementById('dietary_restrictions').value,
-        interests: getCheckedValues('[id^=interest]'), // Collect checked interests
+        interests: getCheckedValues(['education', 'design', 'communication', 'gaming', 'cybersecurity', 'databases', 'ml_ai', 'web']),
         preferred_role: document.getElementById('preferred_role').value,
         experience_level: document.getElementById('experience_level').value,
         hackathons_done: parseInt(document.getElementById('hackathons_done').value),
@@ -20,18 +20,18 @@ document.getElementById('inscriptionForm').addEventListener('submit', function(e
         technical_project: document.getElementById('technical_project').value,
         future_excitement: document.getElementById('future_excitement').value,
         fun_fact: document.getElementById('fun_fact').value,
-        preferred_languages: getCheckedValues('[id^=lang]'), // Collect checked languages
-        friend_registration: [], // Add friend registration logic if needed
+        preferred_languages: getCheckedValues(['catalan', 'dutch', 'english', 'french', 'german', 'italian', 'portuguese', 'spanish']),
+        friend_registration: null,
         preferred_team_size: parseInt(document.getElementById('preferred_team_size').value),
         availability: getAvailability(),
         programming_skills: getProgrammingSkills(),
-        interest_in_challenges: getCheckedValues('[id^=challenge]') // Collect checked challenges
+        interest_in_challenges: getCheckedValues(['restb_ai_challenge', 'mango_challenge', 'aed_challenge'])
     };
 
     console.log(data); // You can send it to your server or handle it as needed
 
-     // Send data to Flask
-     fetch('/submit_form', {
+    // Send data to Flask
+    fetch('/submit_form', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'  // Ensure Content-Type is set to application/json
@@ -46,11 +46,10 @@ document.getElementById('inscriptionForm').addEventListener('submit', function(e
     .catch(error => {
         console.error('Error submitting form:', error);
     });
-    
 
     // Helper functions
-    function getCheckedValues(selector) {
-        return Array.from(document.querySelectorAll(`${selector}:checked`)).map(e => e.value);
+    function getCheckedValues(ids) {
+        return ids.map(id => document.getElementById(id).checked ? document.getElementById(id).value : null).filter(value => value);
     }
     
     function getAvailability() {
@@ -68,12 +67,15 @@ document.getElementById('inscriptionForm').addEventListener('submit', function(e
             'Data Visualization': parseInt(document.getElementById('data_viz').value),
             'Flask': parseInt(document.getElementById('flask').value),
             'React Native': parseInt(document.getElementById('react_native').value),
-            'UI/UX Design': parseInt(document.getElementById('ui_ux_design').value),
-            'TypeScript': parseInt(document.getElementById('typescript').value),
-            'Git': parseInt(document.getElementById('github').value),
-            'React': parseInt(document.getElementById('react').value),
-            'MongoDB': parseInt(document.getElementById('mongodb').value),
-            'HTML/CSS': parseInt(document.getElementById('html').value) + parseInt(document.getElementById('css').value)
+            'HTML/CSS': parseInt(document.getElementById('html').value) + parseInt(document.getElementById('css').value),
+            'C++': parseInt(document.getElementById('cpp').value),
+            'TensorFlow': parseInt(document.getElementById('tensorflow').value),
+            'Java': parseInt(document.getElementById('java').value),
+            'JavaScript': parseInt(document.getElementById('javascript').value),
+            'GitHub': parseInt(document.getElementById('github').value),
+            'SQL': parseInt(document.getElementById('sql').value),
+            'Python': parseInt(document.getElementById('python').value),
+            'Machine Learning': parseInt(document.getElementById('ml').value)
         };
     }
   

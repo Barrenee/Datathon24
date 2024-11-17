@@ -4,7 +4,186 @@
     <title>Datathon FME - Inscription</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./static/styles.css"> <!-- Include shared.css -->
+    <style>
+        /* General body and page styling */
+        body {
+            font-family: 'Bai Jamjuree', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, rgba(0, 123, 255, 0.2), #f7f7f7);
+            color: #333;
+        }
+    
+        /* Main container */
+        .container {
+            max-width: 900px; /* Reduced width for form */
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+    
+        /* Header styles */
+        h1 {
+            font-size: 2.5rem; /* Slightly smaller for better readability */
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+    
+        p {
+            font-size: 1.125rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+    
+        /* Button styles */
+        .btn {
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.3s ease;
+            width: 100%; /* Full-width buttons */
+        }
+    
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+    
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #007bff;
+            color: #007bff;
+        }
+    
+        .btn-outline:hover {
+            background-color: #007bff;
+            color: white;
+        }
+    
+        /* Form layout styles */
+        form {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            margin-top: 2rem;
+        }
+    
+        /* Form input styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    
+        label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: #333;
+        }
+    
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #333;
+            margin-top: 0.5rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+    
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+    
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+    
+        /* Grid system for form fields */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    
+        /* For larger screens, adjust grid layout for form fields */
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+    
+            .btn-container {
+                margin-bottom: 2rem;
+            }
+        }
+    
+        /* For smaller screens, full-width inputs */
+        @media (max-width: 768px) {
+            input,
+            select,
+            textarea {
+                width: 100%;
+            }
+    
+            .btn {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+        }
+    
+        /* Card Styles */
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+    
+        .card-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+    
+        .card-content {
+            font-size: 1.125rem;
+            color: #6c757d;
+        }
+    
+        /* Spacing for sections */
+        .section-spacing {
+            margin-bottom: 3rem;
+        }
+    
+        .btn-container {
+    display: flex;
+    gap: 50px;  /* This will add 10px of space between the two buttons */
+    margin-top: 2rem;
+}
+
+    </style>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
@@ -375,14 +554,14 @@
   
   
         
-        <!-- Submit Button -->
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </div>
-        <!-- Go back button -->
-        <div class="text-center">
-          <a href="/" class="btn btn-secondary btn-lg">Go Back</a>
-        </div>
+        <!-- Button Container -->
+<div class="btn-container text-center">
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    <!-- Go Back button -->
+    <a href="/" class="btn btn-secondary btn-lg">Go Back</a>
+</div>
+
       </form>
     </div>
 

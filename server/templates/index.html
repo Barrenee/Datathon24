@@ -1,20 +1,215 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Datathon FME</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Datathon FME</title>
     <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./static/styles.css"> <!-- Include shared.css -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
-    <div class="container text-center mt-5">
-      <h1 class="mb-4">Welcome to the Datathon FME</h1>
-      <p class="mb-5">Join us in this exciting event! Register yourself or find a group to collaborate with.</p>
-      <div>
-        <a href="inscription" class="btn btn-primary btn-lg mx-2">Inscription</a>
-        <a href="matchmaking_html" class="btn btn-secondary btn-lg mx-2">Find a Group</a>
-      </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        /* General body and page styling */
+        body {
+            font-family: 'Bai Jamjuree', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, rgba(0, 123, 255, 0.2), #f7f7f7);
+            color: #333;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        /* Header styles */
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.25rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Card styles */
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 1.5rem;
+            text-align: left;
+        }
+
+        .card-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card-content {
+            font-size: 1.125rem;
+            color: #6c757d;
+        }
+
+        .card-footer {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Icon styles */
+        .icon {
+            font-size: 1.25rem;
+            margin-right: 8px;
+        }
+
+        /* For smaller screens, adjust text size and layout */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Additional margin after buttons */
+        .btn-container {
+            margin-bottom: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-gradient-to-b from-primary/20 to-background">
+        <div class="container mx-auto px-4 py-16 text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+                Welcome to the Datathon FME
+            </h1>
+            <p class="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Join us in this exciting event where data meets innovation! Register yourself or find a group to collaborate with and unlock the power of data.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16 btn-container">
+                <a href="/inscription" class="btn btn-primary">
+                    Register Now
+                    <i class="fas fa-chevron-right icon"></i>
+                </a>
+                <a href="/matchmaking" class="btn btn-outline">
+                    Find a Group
+                    <i class="fas fa-users icon"></i>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-16">
+                <!-- Event Details Card -->
+                <div class="card">
+                    <div class="card-header">Event Details</div>
+                    <div class="card-content">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <span>November 16-17, 2024</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-pin icon"></i>
+                            <span>FME Campus, Barcelona</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Prizes Card -->
+                <div class="card">
+                    <div class="card-header">Prizes</div>
+                    <div class="card-content">
+                        <p>Win amazing prizes including cash rewards, internship opportunities, and cutting-edge tech gadgets!</p>
+                    </div>
+                </div>
+                <!-- Workshops Card -->
+                <div class="card">
+                    <div class="card-header">Workshops</div>
+                    <div class="card-content">
+                        <p>Attend workshops on machine learning, data visualization, and more led by industry experts.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Participate Card -->
+            <div class="card max-w-2xl mx-auto">
+                <div class="card-header">Why Participate?</div>
+                <div class="card-content">
+                    <p>Unlock your potential in the world of data science</p>
+                    <ul class="list-disc list-inside text-left space-y-2">
+                        <li>Gain hands-on experience with real-world datasets</li>
+                        <li>Network with industry professionals and like-minded peers</li>
+                        <li>Showcase your skills to potential employers</li>
+                        <li>Learn about the latest trends and technologies in data science</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="/learn-more" class="btn btn-primary">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-  </body>
+</body>
+
 </html>
