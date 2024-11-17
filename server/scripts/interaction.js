@@ -74,6 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("acceptButton").addEventListener("click", function () {
-        socket
+        socket.emit("accept_match");  // Emit the 'accept_match' event
     });
 });

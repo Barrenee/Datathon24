@@ -39,7 +39,7 @@
             display: block;
             width: 200px;
             height: 50px;
-            margin: 0 auto;
+            margin: 10px auto;
             font-size: 18px;
             background-color: #007bff;
             color: #fff;
@@ -50,6 +50,16 @@
 
         .feedback-button:hover {
             background-color: #0056b3;
+        }
+
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
@@ -66,17 +76,45 @@
         <p>Why do you feel this wasn't a good match?</p>
         <textarea id="feedback" class="feedback-input" placeholder="Tell us more..."></textarea>
 
+        <button id="submitButton" class="feedback-button">Submit Feedback</button>
         <button id="backButton" class="feedback-button">Return to Waiting</button>
+    </div>
+
+    <div class="image-container" id="imageContainer">
+        <!-- Barplot image will be displayed here -->
     </div>
 </div>
 
 <script>
-
-
     // Handle the "Return to Waiting" button click
     document.getElementById('backButton').addEventListener('click', function() {
-        // Redirect the user back to the matchmaking waiting page
         window.location.href = '/matchmaking_html';  // Adjust to your waiting page URL
+    });
+
+    // Handle the "Submit Feedback" button click
+    document.getElementById('submitButton').addEventListener('click', function() {
+        const feedback = document.getElementById('feedback').value.trim();
+
+        if (feedback) {
+            // Send feedback to the server
+            fetch('/submit_feedback', {  // Adjust to your Python endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ feedback: feedback }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Replace the feedback text field with the barplot
+                const imageContainer = document.getElementById('imageContainer');
+                imageContainer.innerHTML = `
+                    <p>Weights updated to reflect new insights:</p>
+                    <img src="${data.barplot_url}" alt="Feature Importance Barplot">
+                `;
+            })
+            .catch(error => console.error('Error:', error));
+        }
     });
 </script>
 

@@ -4,6 +4,8 @@ from flask_socketio import SocketIO, emit
 import threading
 import time
 import uuid
+from api_handler import modify_weights
+import matplotlib.pyplot as plt
 
 
 app = Flask(__name__)
@@ -162,6 +164,44 @@ def trigger_matchmaking():
     with lock:
         for user_id in connected_users:
             user_status[user_id] = 'interaction'
+
+
+# Insight processing:
+@app.route('/submit_feedback', methods=['POST'])
+def submit_feedback():
+    data = request.json
+    feedback = data.get('feedback')
+    print(f"Received feedback: {feedback}")
+
+    # Example feature importance dictionary
+    feature_importance = {"skill_similitude": 0.6, "objective_similitude": 0.5}
+
+    # Modify the feature importance based on the feedback
+    with open("server/api_key.txt", "a") as f:
+        api_key = f.readline()
+    new_feature_importance = modify_weights(api_key, feature_importance, feedback)
+
+    # Generate barplot
+    barplot_path = generate_barplot(feature_importance, new_feature_importance)
+
+    # Return the URL of the barplot
+    return jsonify({"barplot_url": barplot_path})
+
+def generate_barplot(feature_importance, new_feature_importance):
+    # Plot both feature importances in the same barplot
+
+    fig, ax = plt.subplots()
+    ax.bar(feature_importance.keys(), feature_importance.values(), label='Original')
+    ax.bar(new_feature_importance.keys(), new_feature_importance.values(), label='Updated')
+    ax.set_ylabel('Importance')
+    ax.set_title('Feature Importance')
+    ax.legend()
+
+    # Save the plot to a file
+    barplot_path = 'static/feature_importance.png'
+    plt.savefig(barplot_path)
+    plt.close()
+    
 
 # Background thread to monitor matchmaking
 def matchmaking_monitor():
