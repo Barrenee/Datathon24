@@ -4,13 +4,14 @@ from typing import List, Callable
 class Group:
     def __init__(self, participant: ParticipantAbstract):
         self.people_in_group: List[ParticipantAbstract] = [participant]
+        self.group_size: int = len(self.people_in_group)
         self.preferred_team_size: int = participant.preferred_team_size
         
-        self.roles_fullfilled: List[str] = participant.preferred_role
+        self.roles_fullfilled: List[str] = [participant.preferred_role]
         self.objective_abs: set[str] = participant.objective_abs # Abstracted objective
         self.interest_in_challenges: set[str] = participant.interest_in_challenges
         self.preferred_languages: set[str] = participant.preferred_languages
-
+        self.interests: set[str] = participant.interests
         #self.programming_level: dict[str, List[str]] = participant.programming_level
         #self.expert_ptograms: set[str] = participant.expert_programs
 

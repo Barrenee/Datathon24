@@ -9,9 +9,16 @@ def get_compatible_groups(group: Group, challenges_table: Table, objectives_tabl
     objectives_union = objectives_table.get_union(group)
     challenges_union = challenges_table.get_union(group)
 
-    compatible_groups = challenges_union.union(language_union.intersection(objectives_union))
-    compatible_groups = (compatible_groups)
+    compatible_groups = challenges_union.intersection(language_union.intersection(objectives_union))
+    compatible_groups = list(compatible_groups)
     compatible_groups.remove(group)
+    size = group.group_size
+    pref_size = group.preferred_team_size
+    for group2 in compatible_groups:
+        total_size = group2.group_size + size
+        if  total_size > pref_size or total_size > group2.preferred_team_size:
+            compatible_groups.remove(group2)
+
     return compatible_groups
     
 
