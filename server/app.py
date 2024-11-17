@@ -46,7 +46,7 @@ def matchmaking_html():
     with lock:
         connected_users.add(g.user_id)
         if g.user_id not in user_status:
-            user_status[g.user_id] = 'waiting'  # Default status when joining
+            user_status[g.user_id] = 'interaction'  # Default status when joining
     return render_template('matchmaking.html')
 
 @app.route('/matchmaking_done')
