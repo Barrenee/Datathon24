@@ -13,13 +13,13 @@
         <h1 class="mb-4 text-primary">Waiting for Match</h1>
         <p class="mb-4 text-muted">A match hasn't been found for you yet. Please wait for the next round!</p>
         <p class="mb-4">The next matchmaking attempt will occur in:</p>
-        <div class="countdown display-4 text-danger" id="countdown">60 seconds</div>
+        <div class="countdown display-4 text-danger" id="countdown">90 seconds</div>
     </div>
 
     <script>
         // Countdown timer
-        let countdownTime = 60; // in seconds
-
+        let countdownTime = 90; // in seconds
+    
         function updateCountdown() {
             const countdownElement = document.getElementById('countdown');
             if (countdownTime > 0) {
@@ -27,12 +27,14 @@
                 countdownTime--;
             } else {
                 countdownElement.textContent = "Please wait... next round is starting.";
-                // Optionally redirect or refresh the page after a certain time
+                // Redirect to the matchmaking page after the countdown reaches zero
+                window.location.href = '/matchmaking_html'; // Change the URL to your matchmaking page
             }
         }
-
+    
         // Update the countdown every second
         setInterval(updateCountdown, 1000);
     </script>
+    
 </body>
 </html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Match Found - Chat</title>
+  <!-- Bootstrap 4 CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script> <!-- Include SocketIO client -->
+  <style>
+    /* Custom Styles */
+    body {
+      font-family: 'Bai Jamjuree', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .left-section {
+      width: 50%;
+      padding: 20px;
+      background-color: #ffffff;
+      border-right: 2px solid #ddd;
+    }
+
+    .right-section {
+      width: 50%;
+      padding: 20px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .button-container button {
+      width: 48%;
+      height: 60px;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .button-container .btn-x {
+      background-color: #dc3545; /* Red color for X */
+    }
+
+    .button-container .btn-check {
+      background-color: #28a745; /* Green color for Check */
+    }
+
+    .countdown {
+      font-size: 48px;
+      font-weight: 700;
+      color: #007bff;
+      margin-top: 30px;
+      display: inline-block;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      border: 2px solid #007bff;
+      width: calc(48% + 2px); /* Adjust width to match the combined buttons */
+      text-align: center;
+    }
+
+    .chat-box {
+      height: 80%;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #fff;
+      overflow-y: scroll;
+    }
+
+    .chat-input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .chat-message {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    .chat-message.user {
+      background-color: #28a745;
+      color: #fff;
+      text-align: right;
+    }
+
+    .chat-message.other {
+      background-color: #dc3545;
+      color: #fff;
+      text-align: left;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Left Section -->
+  <div class="left-section">
+    <h2>Match Found!</h2>
+    <p>Congratulations! You have been matched with another user based on your interests and skills. Here are the factors that we took into account: </p>
+    <p id="matchFactors">We are loading the explanation.</p>
+
+    <div class="button-container">
+      <!-- X Button (Red) -->
+      <button class="btn btn-x" id="rejectButton">X</button>
+
+      <!-- Check Button (Green) -->
+      <button class="btn btn-check" id="acceptButton">✔</button>
+    </div>
+
+    <div class="countdown" id="countdown">
+      90
+    </div>
+  </div>
+
+  <!-- Right Section (Chat) -->
+  <div class="right-section">
+    <div class="chat-box" id="chatBox">
+      <!-- Chat messages will appear here -->
+    </div>
+    <input type="text" id="chatInput" class="chat-input" placeholder="Type your message..." />
+  </div>
+</div>
+<script src="script_interaction"></script> <!-- Include custom JavaScript -->
+</body>
+</html>

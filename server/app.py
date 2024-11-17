@@ -1,8 +1,10 @@
 from flask import Flask, render_template, session, jsonify, request, send_file, g
 from participant import Participant
+from flask_socketio import SocketIO, emit
 import threading
 import time
 import uuid
+
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"  # Required for session handling
@@ -11,6 +13,10 @@ app.secret_key = "your_secret_key_here"  # Required for session handling
 connected_users = set()  # Track connected users
 user_status = {}  # Map user_id to their matchmaking status ('waiting', 'matched', etc.)
 lock = threading.Lock()  # Lock for thread-safe access
+
+# Initialize SocketIO
+socketio = SocketIO(app)
+
 
 # Middleware to track user activity
 @app.before_request
@@ -46,7 +52,7 @@ def matchmaking_html():
     with lock:
         connected_users.add(g.user_id)
         if g.user_id not in user_status:
-            user_status[g.user_id] = 'interaction'  # Default status when joining
+            user_status[g.user_id] = 'waiting'  # Default status when joining
     return render_template('matchmaking.html')
 
 @app.route('/matchmaking_done')
@@ -57,9 +63,52 @@ def matchmaking_done():
         status = user_status.get(g.user_id, 'waiting')
     return render_template(f"{status}.html")
 
+
+# SOCKET.IO EVENTS
+@socketio.on('connect')
+def handle_connect():
+    user_id = session.get('user_id')
+    print(f"User {user_id} connected.")
+    connected_users.add(user_id)
+
+@socketio.on('send_message')
+def handle_message(data):
+    user_id = session.get('user_id')
+    if not user_id:
+        print("User is not authenticated.")
+        return
+
+    print(f"Received message from user {user_id}: {data['message']}")
+    emit('receive_message', {
+        'user_id': user_id,
+        'message': data['message'],
+    }, broadcast=True, include_self=False)
+
+@app.route('/why')
+def why():
+    return render_template('why.html')
+
+# Handle the reject match event from any user
+@socketio.on('reject_match')
+def handle_reject_match():
+    # You can use g.user_id or socket.id to track the rejecting user
+    print(f"User rejected the match.")  # Logs the rejection, using g.user_id
+
+    # Perform any necessary actions after rejection
+    # For example, you could broadcast this rejection to others:
+    emit('redirect_to_why', {'message': 'One of the users rejected the match'}, broadcast=True)
+
+
+
+
+# ROUTES
 @app.route('/inscription')
 def inscription():
     return render_template('inscription.html')
+
+@app.route('/interaction')
+def interaction():
+    return render_template('interaction.html')
 
 @app.route('/script_get_inscription')
 def script_get_inscription():
@@ -68,6 +117,10 @@ def script_get_inscription():
 @app.route('/script_matchmaking')
 def script_matchmaking():
     return send_file('./scripts/matchmaking.js')
+
+@app.route('/script_interaction')
+def script_interaction():
+    return send_file('./scripts/interaction.js')
 
 @app.route('/submit_form', methods=['POST'])
 def submit_form():
@@ -95,16 +148,8 @@ def trigger_matchmaking():
     """Perform matchmaking when conditions are met."""
     print("Matchmaking triggered!")
     with lock:
-        if len(connected_users) >= 3:  # Example condition: 3 or more users
-            matched_users = list(connected_users)[:3]  # Take 3 users to match
-            for user in matched_users:
-                user_status[user] = 'matched'
-                connected_users.remove(user)
-            print(f"Matched users: {matched_users}")
-        else:
-            # Reset all waiting users to continue waiting
-            for user in connected_users:
-                user_status[user] = 'waiting'
+        for user_id in connected_users:
+            user_status[user_id] = 'waiting'
 
 # Background thread to monitor matchmaking
 def matchmaking_monitor():
@@ -123,4 +168,4 @@ matchmaking_thread = threading.Thread(target=matchmaking_monitor, daemon=True)
 matchmaking_thread.start()
 
 # Start the Flask app
-app.run(host='0.0.0.0', port=5000, debug=True)
+socketio.run(app, host='0.0.0.0', port=5000, debug=True)
